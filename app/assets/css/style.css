@@ -1,21 +1,107 @@
-html
-{
+html{
     height: 100%;
 }
 
-body
-{
+body{
+
     height: 100%;
     margin: 0px;
     padding: 0px;
+    background-color: #f8f8f8;
 }
 
-#map
-{
+#map{
     height: 100%;
-    width:100%;
+    width: 100%;
+}
+
+#location-picker-container{
+    width: 90%;
+    margin: auto;
+}
+
+#location-picker {
+    height: 400px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+    #location-picker {
+        height: 600px;
+    }
 }
 
 #location-container {
-	padding: 10px;
+    padding: 10px;
+}
+
+#wrapper {
+  width: 100%;
+}
+
+#page-wrapper {
+  padding: 5px;
+  min-height: 568px;
+  background-color: white;
+}
+
+@media (min-width: 768px) {
+  #page-wrapper {
+    position: inherit;
+    margin: 0 0 0 250px;
+    padding: 10px;
+    border-left: 1px solid #e7e7e7;
+  }
+}
+
+.sidebar a {
+    color: #444444;
+}
+
+.sidebar .sidebar-nav .navbar-collapse {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.sidebar .sidebar-search {
+  padding: 15px;
+}
+
+.sidebar ul li {
+  border-bottom: 1px solid #e7e7e7;
+}
+
+.sidebar ul li a.active {
+  background-color: #eeeeee;
+}
+
+.sidebar .arrow {
+  float: right;
+}
+
+.sidebar .fa.arrow:before {
+  content: "\f104";
+}
+
+.sidebar .active > a > .fa.arrow:before {
+  content: "\f107";
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    z-index: 1;
+    position: absolute;
+    width: 250px;
+    margin-top: 51px;
+  }
+}
+
+.panel .slidedown .glyphicon {
+  margin-right: 5px;
+}
+
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
 }

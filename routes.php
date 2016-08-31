@@ -5,10 +5,11 @@
 
         Router::get('/', 'HomeController');
 
-        Router::get('/location', 'LocationController');
-        Router::get('/location/:id', 'LocationController.edit');
-        Router::post('/location/:id', 'LocationController.save');
-        Router::get('/location/delete/:id', 'LocationController.delete');
+        Router::get('/destination', 'DestinationController');
+        Router::get('/destination/:id', 'DestinationController.edit');
+        Router::post('/destination/:id', 'DestinationController.save');
+        Router::get('/destination/delete/:id', 'DestinationController.delete');
+        Router::get('/about', 'AboutController');
 
         Router::run();
     }

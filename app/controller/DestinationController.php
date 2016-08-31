@@ -1,14 +1,14 @@
 <?php
-    class LocationController extends Controller {
+    class DestinationController extends Controller {
 
         public function __construct(){
-            parent::__construct('location');
+            parent::__construct('administration');
             $this->loadModel('DestinationModel');
         }
 
         public function index(){
             $destinations = $this->DestinationModel->getAllDestinations();
-            $this->loadView('location/list', compact('destinations'));
+            $this->loadView('destination/list', compact('destinations'));
             $this->render();
         }
 
@@ -16,12 +16,12 @@
             $destination = null;
             if($id > 0)
                 $destination = $this->DestinationModel->getDestinationByID($id);
-            $this->loadView('location/edit', compact('destination'));
+            $this->loadView('destination/edit', compact('destination'));
             $this->render();
         }
 
         public function save($id){
-
+            echo 'save';
         }
 
         public function delete($id){

@@ -1,7 +1,8 @@
 <?php
     //Software
     define('PROGRAM_NAME','MyConnectedSuitcase');
-    define('VERSION','1.0');
+    define('PROGRAM_TITLE','My Connected Suitcase');
+    define('VERSION','0.1 alpha');
     define('AUTHOR','Antoine Leprevost');
     define('PROTOCOL', isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http');
     define('BASE_URL', PROTOCOL . '://' . $_SERVER['SERVER_NAME'] . '/' . 'MyConnectedSuitcase');

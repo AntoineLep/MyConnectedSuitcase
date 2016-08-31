@@ -44,4 +44,8 @@
         $date = new DateTime($datetime);
         return $date->format($format);
     }
+
+    function url($uri){
+        return substr($uri, 0, 1) == '/' ? '"' . BASE_URL . $uri . '"' : '"' . BASE_URL . '/' . $uri . '"';
+    }
 ?>
