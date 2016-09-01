@@ -17,8 +17,8 @@ $(function(){
         initLocationpicker();
     }
 
-    $('#db-start-date').datepicker({dateFormat: "mm/dd/yy"});
-    $('#db-end-date').datepicker({dateFormat: "mm/dd/yy"});
+    $('#location-start-date').datepicker({dateFormat: "mm/dd/yy"});
+    $('#location-end-date').datepicker({dateFormat: "mm/dd/yy"});
 
     function successCallback(position){
         console.log(position);

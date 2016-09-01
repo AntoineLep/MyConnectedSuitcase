@@ -22,7 +22,7 @@
                         </span>
                     </span>
                 <?php } ?>
-                    <a href=<?php echo url('destination/-1'); ?> class="list-group-item text-center"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New location</a>
+                    <a href=<?php echo url('destination/-1'); ?> class="list-group-item text-center"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New destination</a>
                 </div>
             </div>
         </div>

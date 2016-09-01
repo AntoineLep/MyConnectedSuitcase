@@ -40,11 +40,30 @@
         return '"' . BASE_URL . $uri . '/' . $subpath . '/' . $filename . '"';
     }
 
-    function dateFormat($datetime, $format = 'm/d/Y'){
+    /**
+    * Format a datetime to a string (m/d/Y)
+    * @param (DateTime) datetime : Datetime to be formated
+    * @return (string) String format of the datetime
+    */
+    function dateFormat($datetime){
         $date = new DateTime($datetime);
-        return $date->format($format);
+        return $date->format('m/d/Y');
     }
 
+    /**
+    * Tells if a date string has a good format
+    * @param (string) date : String date to be checked
+    * @return (bool) True is the format is good, false otherwise
+    */
+    function isValidDate($date){
+        return (preg_match('#^([0-9]{2})[\/]([0-9]{2})[\/]([0-9]{4})$#', $date, $matches) == 1 && checkdate($matches[1], $matches[2], $matches[3]));
+    }
+
+    /**
+    * Return the full url of an uri
+    * @param (string) uri : The uri to be converted to a full url
+    * @return (string) The full url from the uri
+    */
     function url($uri){
         return substr($uri, 0, 1) == '/' ? '"' . BASE_URL . $uri . '"' : '"' . BASE_URL . '/' . $uri . '"';
     }
