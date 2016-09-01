@@ -78,7 +78,7 @@
             if(count($errors) == 0){
                 $retId = $this->DestinationModel->addOrUpdate($destination);
                 $successMessage = ($id == $retId) ? 'Your changes have been saved !' : 'New destination created !';
-                return $this->edit($id, $successMessage, $errors);
+                return $this->edit($retId, $successMessage, $errors);
             }
             else{
                 return $this->edit($id, '', $errors, $formResult);

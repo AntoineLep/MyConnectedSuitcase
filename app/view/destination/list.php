@@ -7,11 +7,11 @@
             <div class="panel-body">
                 <div class="list-group">
                 <?php foreach ($destinations as $destination) { 
-                        $fromDate = (substr($destination['startDate'], 0, 4) != '0000') ? ' arrived: <em>' . dateFormat($destination['startDate']) . '</em>' : '';
-                        $toDate = (substr($destination['endDate'], 0, 4) != '0000') ? ' left: <em>' . dateFormat($destination['endDate']) . '</em>' : '';
+                        $fromDate = (substr($destination['startDate'], 0, 4) != '0000') ? ' - arrived: <em>' . dateFormat($destination['startDate']) . '</em>' : '';
+                        $toDate = (substr($destination['endDate'], 0, 4) != '0000') ? ' - left: <em>' . dateFormat($destination['endDate']) . '</em>' : '';
                 ?>
                     <span class="list-group-item clearfix">
-                        <?php echo '<strong>' . $destination['name'] . '</strong> -' . $fromDate . $toDate ?>
+                        <?php echo '<strong>' . $destination['name'] . '</strong> ' . $fromDate . $toDate ?>
                         <span class="pull-right">
                             <a class="btn btn-primary" href=<?php echo url('destination/' . $destination['id']); ?> role="button">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Update content

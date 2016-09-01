@@ -18,8 +18,15 @@
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <?php echo $alertMessage; ?>
             </div>
-        <?php } ?>
-        <form class="form-default" method="post" action="">
+        <?php } 
+
+        if(isset($destination['id']))
+            $formAction = url('destination/' . $destination['id']); 
+        else
+            $formAction = '""';
+
+        ?>
+        <form class="form-default" method="post" action=<?php echo $formAction; ?>>
             <div class="form-group">
                 <label class="control-label" for="location-address">Location: </label>
                 <input type="text" class="form-control" id="location-address" placeholder="Location">
@@ -54,7 +61,10 @@
             </div>
 
             <?php 
-                $startDateValueField = (isset($destination['startDate']) && substr($destination['startDate'], 0, 4) != '0000') ? 'value="' . dateFormat($destination['startDate']) . '"' : '';
+                if(!isset($errors['startDate']) && $destination['startDate'] != '')
+                    $startDateValueField = (isset($destination['startDate']) && substr($destination['startDate'], 0, 4) != '0000') ? 'value="' . dateFormat($destination['startDate']) . '"' : '';
+                else
+                    $startDateValueField = 'value="' . $destination['startDate'] . '"';
                 $errorClass = (isset($errors['startDate'])) ? ' has-error has-feedback' : '';
                 $formGroupClass = '"form-group' . $errorClass . '"';
                 $helpBlock = (isset($errors['startDate'])) ? '<span class="help-block">' . $errors['startDate'] . '</span>' : '';
@@ -66,7 +76,10 @@
             </div>
 
             <?php 
-                $endDateValueField = (isset($destination['endDate']) && substr($destination['endDate'], 0, 4) != '0000') ? 'value="' . dateFormat($destination['endDate']) . '"' : '';
+                if(!isset($errors['endDate']) && $destination['endDate'] != '')
+                    $endDateValueField = (isset($destination['endDate']) && substr($destination['endDate'], 0, 4) != '0000') ? 'value="' . dateFormat($destination['endDate']) . '"' : '';
+                else
+                    $endDateValueField = 'value="' . $destination['endDate'] . '"';
                 $errorClass = (isset($errors['endDate'])) ? ' has-error has-feedback' : '';
                 $formGroupClass = '"form-group' . $errorClass . '"';
                 $helpBlock = (isset($errors['endDate'])) ? '<span class="help-block">' . $errors['endDate'] . '</span>' : '';
