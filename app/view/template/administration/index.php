@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title><?php echo PROGRAM_TITLE; ?></title>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
         <link type="text/css" rel="stylesheet" href=<?php echo css_path('bootstrap.min.css'); ?> />
         <link type="text/css" rel="stylesheet" href=<?php echo css_path('bootstrap-theme.min.css'); ?> />
         <link type="text/css" rel="stylesheet" href=<?php echo css_path('metisMenu.min.css'); ?> />
@@ -28,8 +29,8 @@
                             <li> <a href=<?php echo url('destination'); ?>><i class="fa fa-map-marker fa-fw"></i> Destinations</a></li>
                             <li> <a href=<?php echo url('user'); ?>><i class="fa fa-user fa-fw"></i> User profile</a></li>
                             <li> <a href=<?php echo url('about'); ?>><i class="fa fa-question fa-fw"></i> About</a></li>
-                            <li> <a href=<?php echo url('/'); ?>><i class="fa fa-map fa-fw"></i> Journey map</a></li>
-                            <li> <a href=<?php echo url('user'); ?>><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                            <li> <a href=<?php echo url('/'); ?>><i class="fa fa-map fa-fw"></i> Trip map</a></li>
+                            <li> <a href=<?php echo url('user/logout'); ?>><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -49,12 +50,15 @@
             </div>
         </div>
 
-        <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=places&key=AIzaSyCgmGyxiflhQfpMH9GFgxHbKhPVTPuPYHA"></script>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
         <script type="text/javascript" src=<?php echo js_path('bootstrap.min.js'); ?>></script>
-        <script type="text/javascript" src=<?php echo js_path('locationpicker.jquery.js'); ?>></script>
         <script type="text/javascript" src=<?php echo js_path('metisMenu.min.js'); ?>></script>
         <script type="text/javascript" src=<?php echo js_path('sb-admin-2.js'); ?>></script>
-        <script type="text/javascript" src=<?php echo js_path('location.js'); ?>></script>
+        <?php if(isset($enableLocation) && $enableLocation) { ?>
+            <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=places&key=AIzaSyCgmGyxiflhQfpMH9GFgxHbKhPVTPuPYHA"></script>
+            <script type="text/javascript" src=<?php echo js_path('locationpicker.jquery.js'); ?>></script>
+            <script type="text/javascript" src=<?php echo js_path('destinationEdit.js'); ?>></script>
+        <?php } ?>
     </body>
 </html>

@@ -40,7 +40,7 @@
         return '"' . BASE_URL . $uri . '/' . $subpath . '/' . $filename . '"';
     }
 
-    function dateFormat($datetime, $format = 'd/m/Y'){
+    function dateFormat($datetime, $format = 'm/d/Y'){
         $date = new DateTime($datetime);
         return $date->format($format);
     }

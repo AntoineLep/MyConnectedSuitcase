@@ -2,7 +2,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
+                <i class="fa fa-map-signs fa-fw"></i> Stages of the trip
             </div>
             <div class="panel-body">
                 <div class="list-group">

@@ -17,7 +17,7 @@
             if($id > 0)
                 $destination = $this->DestinationModel->getDestinationByID($id);
             $this->loadView('destination/edit', compact('destination'));
-            $this->render();
+            $this->render(['enableLocation' => true]);
         }
 
         public function save($id){

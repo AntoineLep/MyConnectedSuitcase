@@ -17,6 +17,9 @@ $(function(){
         initLocationpicker();
     }
 
+    $('#db-start-date').datepicker({dateFormat: "mm/dd/yy"});
+    $('#db-end-date').datepicker({dateFormat: "mm/dd/yy"});
+
     function successCallback(position){
         console.log(position);
         _lat = position.coords.latitude;
