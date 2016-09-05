@@ -4,3 +4,4 @@ TODO
 Check fields when saving destination (return back with errors if the test does not pass)
 Care when deleting a destination --> Delete also all physical images
 Create a token when a user is connected. Use this token to validate a form has been sent by a specific user
+Add a "type of transportation" optional field when going to a destination
