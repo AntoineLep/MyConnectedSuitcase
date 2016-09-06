@@ -8,7 +8,7 @@
 <input type="hidden" id="_lat" value=<?php echo '"' . $lat . '"'; ?>>
 <input type="hidden" id="_lng" value=<?php echo '"' . $lng . '"'; ?>>
 
-<div class="row location-picker-container">
+<div class="row">
     <div class="col-md-12">
         <?php if(!empty(trim($success)) || count($errors) > 0) {
             $alertType = !empty(trim($success)) ? 'alert-success' : 'alert-danger';
@@ -18,20 +18,32 @@
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <?php echo $alertMessage; ?>
             </div>
-        <?php } 
+        <?php }
 
         if(isset($destination['id']))
             $formAction = url('destination/' . $destination['id']); 
         else
-            $formAction = '""';
-
+            $formAction = url('destination/-1');
         ?>
+
+        <h2 id="destination-description">Destination description</h2>
+
         <form class="form-default" method="post" action=<?php echo $formAction; ?>>
+            <?php
+                $idTripValue = '""';
+                if(isset($idTrip))
+                    $idTripValue = '"' . $idTrip . '"';
+                elseif (isset($destination['idTrip']))
+                    $idTripValue = '"' . $destination['idTrip'] . '"';
+
+            ?>
+            <input type="hidden" name="id-trip" value=<?php echo $idTripValue; ?>/>
+
             <div class="form-group">
                 <label class="control-label" for="location-address">Location: </label>
                 <input type="text" class="form-control" id="location-address" placeholder="Location">
             </div>
-            <?php 
+            <?php
                 $locationNameValueField = isset($destination['name']) ? 'value="' . $destination['name'] . '"' : '';
                 $errorClass = (isset($errors['name'])) ? ' has-error has-feedback' : '';
                 $formGroupClass = '"form-group' . $errorClass . '"';
@@ -45,10 +57,10 @@
 
             <input type="hidden" class="form-control" name="db-location-lat" id="location-lat">
             <input type="hidden" class="form-control" name="db-location-lng" id="location-lng">
-            <span><em><u>Drag the marker on the map to update the location to record</u></em></span>
+            <span><em><u>Drag the marker on the map to update the location to be recorded</u></em></span>
             <div id="location-picker"></div>
 
-            <?php 
+            <?php
                 $locationDescription = isset($destination['description']) ? $destination['description'] : '';
                 $errorClass = (isset($errors['description'])) ? ' has-error has-feedback' : '';
                 $formGroupClass = '"form-group' . $errorClass . '"';
@@ -60,7 +72,7 @@
                 <?php echo $helpBlock; ?>
             </div>
 
-            <?php 
+            <?php
                 if(!isset($errors['startDate']) && $destination['startDate'] != '')
                     $startDateValueField = (isset($destination['startDate']) && substr($destination['startDate'], 0, 4) != '0000') ? 'value="' . dateFormat($destination['startDate']) . '"' : '';
                 else
@@ -75,7 +87,7 @@
                 <?php echo $helpBlock; ?>
             </div>
 
-            <?php 
+            <?php
                 if(!isset($errors['endDate']) && $destination['endDate'] != '')
                     $endDateValueField = (isset($destination['endDate']) && substr($destination['endDate'], 0, 4) != '0000') ? 'value="' . dateFormat($destination['endDate']) . '"' : '';
                 else
@@ -89,7 +101,34 @@
                 <input type="text" class="form-control" id="location-end-date" name="db-location-end-date" placeholder="When did you left this destination ?" <?php echo $endDateValueField; ?>>
                 <?php echo $helpBlock; ?>
             </div>
+
+            <?php
+                $errorClass = (isset($errors['transportationType'])) ? ' has-error has-feedback' : '';
+                $formGroupClass = '"form-group' . $errorClass . '"';
+                $helpBlock = (isset($errors['transportationType'])) ? '<span class="help-block">' . $errors['transportationType'] . '</span>' : '';
+            ?>
+            <div class=<?php echo $formGroupClass; ?>>
+                <label class="control-label" for="transportation-type">Transportation type: </label>
+                <select class="form-control" id="transportation-type" name="transportation-type">
+                <?php
+                    foreach ($transportationTypes as $transportationType){
+                        if($transportationType['id'] == $destination['id_transportation_type'])
+                            echo '<option value="' . $transportationType['id'] . '" selected>' . $transportationType['name'] . '</option>';
+                        else
+                            echo '<option value="' . $transportationType['id'] . '">' . $transportationType['name'] . '</option>';
+                    }
+                ?>
+                </select>
+                <?php echo $helpBlock; ?>
+            </div>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h2 id="destination-picture">Destination pictures</h2>
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
     </div>
 </div>

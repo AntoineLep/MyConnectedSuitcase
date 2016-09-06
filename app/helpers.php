@@ -55,8 +55,17 @@
     * @param (string) date : String date to be checked
     * @return (bool) True is the format is good, false otherwise
     */
-    function isValidDate($date){
+    function isValidDateString($date){
         return (preg_match('#^([0-9]{2})[\/]([0-9]{2})[\/]([0-9]{4})$#', $date, $matches) == 1 && checkdate($matches[1], $matches[2], $matches[3]));
+    }
+
+        /**
+    * Tells if a date string has a good format
+    * @param (datetime) date : date to be checked
+    * @return (bool) True is the format is good, false otherwise
+    */
+    function isValidDateTime($date){
+        return !is_null($date) && !empty($date) && substr($date, 0, 4) != '0000';
     }
 
     /**
@@ -66,5 +75,14 @@
     */
     function url($uri){
         return substr($uri, 0, 1) == '/' ? '"' . BASE_URL . $uri . '"' : '"' . BASE_URL . '/' . $uri . '"';
+    }
+
+    /**
+    * Return the full url of an uri without "" around it
+    * @param (string) uri : The uri to be converted to a full url
+    * @return (string) The full url from the uri
+    */
+    function cleanUrl($uri){
+        return substr($uri, 0, 1) == '/' ? BASE_URL . $uri : BASE_URL . '/' . $uri;
     }
 ?>

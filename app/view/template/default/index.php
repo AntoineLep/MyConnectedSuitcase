@@ -5,7 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title><?php echo PROGRAM_NAME; ?></title>
         <link type="text/css" rel="stylesheet" href=<?php echo css_path('bootstrap.min.css'); ?> />
-        <link type="text/css" rel="stylesheet" href=<?php echo css_path('bootstrap-theme.min.css'); ?> />
         <link type="text/css" rel="stylesheet" href=<?php echo css_path('style.css'); ?> />
     </head>
     <body>

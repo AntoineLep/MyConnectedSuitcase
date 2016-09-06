@@ -4,18 +4,27 @@
         public function __construct(){
             parent::__construct('administration');
             $this->loadModel('DestinationModel');
+            $this->loadModel('TransportationTypeModel');
         }
 
         public function index(){
-            $destinations = $this->DestinationModel->getAllDestinations();
-            $this->loadView('destination/list', compact('destinations'));
-            $this->render();
+            //Nothing to show there
+        }
+
+        public function create($idTrip){
+            $success = '';
+            $errors = [];
+            $destination = null;
+            $transportationTypes = $this->TransportationTypeModel->getAllTransportationType();
+            $this->loadView('destination/edit', compact('destination', 'transportationTypes', 'success', 'errors', 'idTrip'));
+            $this->render(['enableLocation' => true]);
         }
 
         public function edit($id, $success = '', $errors = [], $destination = null){
             if($id > 0 && $destination == null)
                 $destination = $this->DestinationModel->getDestinationByID($id);
-            $this->loadView('destination/edit', compact('destination', 'success', 'errors'));
+            $transportationTypes = $this->TransportationTypeModel->getAllTransportationType();
+            $this->loadView('destination/edit', compact('destination', 'transportationTypes', 'success', 'errors'));
             $this->render(['enableLocation' => true]);
         }
 
@@ -28,7 +37,11 @@
                            'lng' => (isset($_POST['db-location-lng']) && !empty(trim($_POST['db-location-lng']))) ? $_POST['db-location-lng'] : '',
                            'description' => (isset($_POST['db-location-description']) && !empty(trim($_POST['db-location-description']))) ? $_POST['db-location-description'] : '',
                            'startDate' => (isset($_POST['db-location-start-date']) && !empty(trim($_POST['db-location-start-date']))) ? $_POST['db-location-start-date'] : '',
-                           'endDate' => (isset($_POST['db-location-end-date']) && !empty(trim($_POST['db-location-end-date']))) ? $_POST['db-location-end-date'] : ''];
+                           'endDate' => (isset($_POST['db-location-end-date']) && !empty(trim($_POST['db-location-end-date']))) ? $_POST['db-location-end-date'] : '',
+                           'transportationType' => (isset($_POST['transportation-type']) && !empty(trim($_POST['transportation-type']))) ? $_POST['transportation-type'] : ''];
+            if(isset($_POST['id-trip']))
+                $formResult['idTrip'] = !empty(trim($_POST['id-trip'])) ? $_POST['id-trip'] : null;
+
             $errors = [];
 
             //Name
@@ -57,27 +70,49 @@
 
             //Start date
             if($formResult['startDate'] != '')
-                if(isValidDate($formResult['startDate']))
+                if(isValidDateString($formResult['startDate']))
                     $destination['startDate'] = date_format(DateTime::createFromFormat('m/d/Y', $formResult['startDate']), 'Y-m-d H:i:s');
                 else
                     $errors['startDate'] = 'Date format is not valid';
             else 
-                $destination['startDate'] = '';
+                $destination['startDate'] = null;
 
             //End date
-            if($formResult['endDate'])
-                if(isValidDate($formResult['endDate']))
+            if($formResult['endDate'] != '')
+                if(isValidDateString($formResult['endDate']))
                     $destination['endDate'] = date_format(DateTime::createFromFormat('m/d/Y', $formResult['endDate']), 'Y-m-d H:i:s');
                 else
                     $errors['endDate'] = 'Date format is not valid';
             else 
-                $destination['endDate'] = '';
+                $destination['endDate'] = null;
+
+            //Transportation type
+            if($formResult['transportationType'] != '')
+                if($this->TransportationTypeModel->transportationTypeIdExists($formResult['transportationType']))
+                    $destination['transportationType'] = $formResult['transportationType'];
+                else
+                {
+                    $destination['transportationType'] = 1;    
+                    $errors['transportationType'] = 'Transportation type is not valid';
+                }
+            else 
+                $destination['transportationType'] = 1;
+
+            //Trip id
+            if(isset($formResult['idTrip']))
+                if($formResult['idTrip'] != null)
+                    $destination['idTrip'] = $formResult['idTrip'];
+                else
+                    $destination['idTrip'] = -1;
+            else
+                $destination['idTrip'] = -1;
 
 
 
             if(count($errors) == 0){
                 $retId = $this->DestinationModel->addOrUpdate($destination);
                 $successMessage = ($id == $retId) ? 'Your changes have been saved !' : 'New destination created !';
+                $successMessage .= ' <a href=' . url('trip') . '>Back to my trips</a>';
                 return $this->edit($retId, $successMessage, $errors);
             }
             else{
@@ -87,7 +122,7 @@
 
         public function delete($id){
             $this->DestinationModel->deleteDestinationByID($id);
-            return $this->index();
+            header('Location: ' . cleanUrl('trips'));
         }
     }
 ?>

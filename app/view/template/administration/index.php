@@ -6,7 +6,6 @@
         <title><?php echo PROGRAM_TITLE; ?></title>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
         <link type="text/css" rel="stylesheet" href=<?php echo css_path('bootstrap.min.css'); ?> />
-        <link type="text/css" rel="stylesheet" href=<?php echo css_path('bootstrap-theme.min.css'); ?> />
         <link type="text/css" rel="stylesheet" href=<?php echo css_path('metisMenu.min.css'); ?> />
         <link type="text/css" rel="stylesheet" href=<?php echo css_path('font-awesome.min.css'); ?> />
         <link type="text/css" rel="stylesheet" href=<?php echo css_path('style.css'); ?> />
@@ -21,16 +20,16 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href=<?php echo url('destination'); ?>><?php echo PROGRAM_TITLE; ?></a>
+                    <a class="navbar-brand" href=<?php echo url('trips'); ?>><?php echo PROGRAM_TITLE; ?></a>
                 </div>
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
-                            <li> <a href=<?php echo url('destination'); ?>><i class="fa fa-map-marker fa-fw"></i> Destinations</a></li>
-                            <li> <a href=<?php echo url('user'); ?>><i class="fa fa-user fa-fw"></i> User profile</a></li>
-                            <li> <a href=<?php echo url('about'); ?>><i class="fa fa-question fa-fw"></i> About</a></li>
+                            <li> <a href=<?php echo url('trip'); ?>><i class="fa fa-globe fa-fw"></i> Trips</a></li>
                             <li> <a href=<?php echo url('/'); ?>><i class="fa fa-map fa-fw"></i> Trip map</a></li>
+                            <li> <a href=<?php echo url('user'); ?>><i class="fa fa-user fa-fw"></i> User profile</a></li>
                             <li> <a href=<?php echo url('user/logout'); ?>><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                            <li> <a href=<?php echo url('about'); ?>><i class="fa fa-question fa-fw"></i> About</a></li>
                         </ul>
                     </div>
                 </div>
@@ -38,11 +37,7 @@
 
             <div id="page-wrapper">
                 <?php if(isset($pageTitle)) { ?>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header"><?php echo $pageTitle; ?></h1>
-                    </div>
-                </div>
+                    <h1 class="page-header"><?php echo $pageTitle; ?></h1>
                 <?php } ?>
 
                 <?php echo $_viewContent; ?>
