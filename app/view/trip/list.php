@@ -8,19 +8,27 @@
                 $destinationNumber = count($destinationsByTripId[$trip['id']]);
         ?>
         <div class="row">
-            <h4>
-                <a data-toggle="collapse" href=<?php echo '"#' . $cssId . '"'; ?> aria-expanded="false" aria-controls=<?php echo '"' . $cssId . '"'; ?>>
-                    <?php echo $trip['name']; ?>
-                </a><span class="badge badge-info"><?php echo $destinationNumber; ?></span>&nbsp;
-                <a class="btn btn-primary" href=<?php echo url('trip/' . $trip['id']); ?> role="button">
-                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit trip info
-                </a>
-            </h4>
-            <div class="panel panel-default collapse" id=<?php echo '"' . $cssId . '"';?>>
-                <div class="panel-heading">
-                    <i class="fa fa-map-signs fa-fw"></i> Stages of the trip
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <a data-toggle="collapse" href=<?php echo '"#' . $cssId . '"'; ?> aria-expanded="false" aria-controls=<?php echo '"' . $cssId . '"'; ?>>
+                        <?php echo $trip['name']; ?>
+                    </a>
+                    <span class="badge badge-info"><?php echo $destinationNumber; ?></span>
+                    <span>
+                        <?php if(!empty(trim($trip['description'])))
+                            echo ' - ' . $trip['description'];
+                        ?>
+                    </span>
+                    <span class="pull-right">
+                        <a class="btn btn-primary" href=<?php echo url('trip/' . $trip['id']); ?> role="button">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit trip info
+                        </a>&nbsp;
+                        <a class="btn btn-danger" href=<?php echo url('trip/delete/' . $trip['id']); ?> role="button" onclick="return confirm('Are you sure you want to delete this item? All related content will be deleted');">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete trip
+                        </a>
+                    </span>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body collapse" id=<?php echo '"' . $cssId . '"';?>>
                     <div class="list-group">
     
                         <?php if(isset($destinationsByTripId[$trip['id']])) 

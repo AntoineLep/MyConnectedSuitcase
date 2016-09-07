@@ -122,7 +122,7 @@
 
         public function delete($id){
             $this->DestinationModel->deleteDestinationByID($id);
-            header('Location: ' . cleanUrl('trips'));
+            header('Location: ' . cleanUrl('trip'));
         }
     }
 ?>

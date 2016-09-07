@@ -7,6 +7,9 @@
 
         Router::get('/trip', 'TripController');
         Router::get('/trip/:id', 'TripController.edit')->with(':id', '[0-9]+');
+        Router::post('/trip/:id', 'TripController.save')->with(':id', '[0-9]+');
+        Router::get('/trip/delete/:id', 'TripController.delete')->with(':id', '[0-9]+');
+
         Router::get('/destination/-1/:idTrip', 'DestinationController.create')->with(':idTrip', '[0-9]+');
         Router::get('/destination/:id', 'DestinationController.edit')->with(':id', '[0-9]+');
         Router::post('/destination/:id', 'DestinationController.save')->with(':id', '[0-9]+');
