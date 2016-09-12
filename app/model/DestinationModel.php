@@ -10,38 +10,48 @@
                 $this->idUser = $_SESSION['idUser'];
         }
 
-        private function isUserValid($idDestination = -1){
+        public function isUserValid($idDestination = -1){
             if($idDestination == -1){
                 $sth = $this->db->prepare('SELECT count(id) as num_rows FROM user WHERE id = :idUser');
                 $sth->execute([':idUser' => $this->idUser]);
                 return $sth->fetchAll()[0]['num_rows'] == 1;
             }
             else {
-                $sth = $this->db->prepare('SELECT count(destination.id) as num_rows FROM destination JOIN trip ON destination.id_trip = trip.id WHERE destination.id = :id AND id_user = :idUser');
+                $sth = $this->db->prepare('SELECT count(destination.id) as num_rows 
+                                            FROM destination 
+                                            JOIN trip ON destination.id_trip = trip.id 
+                                            WHERE destination.id = :id AND id_user = :idUser');
                 $sth->execute([':id' => $idDestination, ':idUser' => $this->idUser]);
                 return $sth->fetchAll()[0]['num_rows'] == 1;
             }
         }
 
-        public function getAllDestinations(){
+        public function getAllUserDestinations(){
             if(!$this->isUserValid())
                 return [];
-            return $this->db->query('SELECT * FROM destination')->fetchAll();
+            $sth = $this->db->prepare('SELECT * FROM destination WHERE id_trip IN (SELECT id FROM trip where id_user = :idUser)');
+            $sth->execute([':idUser' => $this->idUser]);
+            return $sth->fetchAll();
         }
 
         public function getDestinationIdAndRelatedImageNumber(){
-            return $this->db->query('SELECT id_destination, count(*) AS num_rows FROM image WHERE id_destination IN (SELECT id FROM destination) GROUP BY id_destination')->fetchAll();
+            return $this->db->query('SELECT id_destination, count(*) AS num_rows 
+                                        FROM image 
+                                        WHERE id_destination IN 
+                                            (SELECT id FROM destination) 
+                                        GROUP BY id_destination'
+                                    )->fetchAll();
         }
 
-        public function getDestinationByID($id){
+        public function getDestinationById($id){
             if(!$this->isUserValid($id))
                 return null;
             $sth = $this->db->prepare('SELECT * FROM destination WHERE id = :id');
             $sth->execute([':id' => $id]);
-            return $sth->fetchAll();
+            return $sth->fetchAll()[0];
         }
 
-        public function deleteDestinationByID($id){
+        public function deleteDestinationById($id){
             if(!$this->isUserValid($id))
                 return false;
             $sth = $this->db->prepare('DELETE FROM destination WHERE id = :id');
@@ -54,6 +64,10 @@
                 return false;
 
             if($destination['id'] == -1){
+                $tripModel = new TripModel();
+                if(count($tripModel->getTripById($destination['id_trip']) == 0))
+                    return false;
+
                 unset($destination['id']);
                 $sth = $this->db->prepare('INSERT INTO destination (name, lat, lng, description, startDate, endDate, id_transportation_type, id_trip) 
                                             VALUES(:name, :lat, :lng, :description, :startDate, :endDate, :transportationType, :idTrip)');

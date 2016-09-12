@@ -9,7 +9,7 @@
                 $this->idUser = $_SESSION['idUser'];
         }
 
-        private function isUserValid($idTrip = -1){
+        public function isUserValid($idTrip = -1){
             if($idTrip == -1){
                 $sth = $this->db->prepare('SELECT count(id) as num_rows FROM user WHERE id = :idUser');
                 $sth->execute([':idUser' => $this->idUser]);
@@ -35,7 +35,7 @@
                 return null;
             $sth = $this->db->prepare('SELECT * FROM trip WHERE id = :id AND id_user = :idUser');
             $sth->execute([':id' => $id, ':idUser' => $this->idUser]);
-            return $sth->fetchAll();
+            return $sth->fetchAll()[0];
         }
 
         public function addOrUpdate($trip){
@@ -61,7 +61,7 @@
             }
         }
 
-        public function deleteTripByID($id){
+        public function deleteTripById($id){
             if(!$this->isUserValid($id))
                 return false;
             $sth = $this->db->prepare('DELETE FROM trip WHERE id = :id AND id_user = :idUser');

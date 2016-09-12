@@ -9,7 +9,7 @@
 
         public function index(){
             $trips = $this->TripModel->getAllTrips();
-            $destinations = $this->DestinationModel->getAllDestinations();
+            $destinations = $this->DestinationModel->getAllUserDestinations();
             $destinationsByTripId = [];
 
             foreach ($destinations as $destination){
@@ -31,7 +31,7 @@
 
         public function edit($id, $success = '', $errors = [], $trip = null){
             if($id > 0 && $trip == null)
-                $trip = $this->TripModel->getTripByID($id);
+                $trip = $this->TripModel->getTripById($id);
             $this->loadView('trip/edit', compact('trip', 'success', 'errors'));
             $this->render();
         }
@@ -70,7 +70,7 @@
         }
 
         public function delete($id){
-            $this->DestinationModel->deleteTripByID($id);
+            $this->DestinationModel->deleteTripById($id);
             header('Location: ' . cleanUrl('trip'));
         }
     }

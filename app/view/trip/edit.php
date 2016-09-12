@@ -1,8 +1,3 @@
-<?php
-    if(isset($trip[0])) //db result
-        $trip = $trip[0];
-?>
-
 <div class="row">
     <div class="col-md-12">
         <?php if(!empty(trim($success)) || count($errors) > 0) {
@@ -48,7 +43,7 @@
                 <?php echo $helpBlock; ?>
             </div>
 
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button>
         </form>
     </div>
 </div>

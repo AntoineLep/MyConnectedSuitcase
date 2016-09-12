@@ -5,6 +5,7 @@
             parent::__construct('administration');
             $this->loadModel('DestinationModel');
             $this->loadModel('TransportationTypeModel');
+            $this->loadModel('ImageModel');
         }
 
         public function index(){
@@ -22,9 +23,19 @@
 
         public function edit($id, $success = '', $errors = [], $destination = null){
             if($id > 0 && $destination == null)
-                $destination = $this->DestinationModel->getDestinationByID($id);
+                $destination = $this->DestinationModel->getDestinationById($id);
+            $images = (isset($destination['id'])) ? $this->ImageModel->getImageByDestinationId($destination['id']) : null;
+            $imageFolder = 'user_images';
+
+            if(count($images) > 0){
+                $this->loadModel('UserModel');
+                $user = $this->UserModel->getUserInfo();
+                if($user)
+                    $imageFolder .= '/' . $user['image_folder'];
+            }
+
             $transportationTypes = $this->TransportationTypeModel->getAllTransportationType();
-            $this->loadView('destination/edit', compact('destination', 'transportationTypes', 'success', 'errors'));
+            $this->loadView('destination/edit', compact('destination', 'transportationTypes', 'success', 'errors', 'images', 'imageFolder'));
             $this->render(['enableLocation' => true]);
         }
 
@@ -40,7 +51,7 @@
                            'endDate' => (isset($_POST['db-location-end-date']) && !empty(trim($_POST['db-location-end-date']))) ? $_POST['db-location-end-date'] : '',
                            'transportationType' => (isset($_POST['transportation-type']) && !empty(trim($_POST['transportation-type']))) ? $_POST['transportation-type'] : ''];
             if(isset($_POST['id-trip']))
-                $formResult['idTrip'] = !empty(trim($_POST['id-trip'])) ? $_POST['id-trip'] : null;
+                $formResult['id_trip'] = !empty(trim($_POST['id-trip'])) ? $_POST['id-trip'] : null;
 
             $errors = [];
 
@@ -107,21 +118,18 @@
             else
                 $destination['idTrip'] = -1;
 
-
-
             if(count($errors) == 0){
                 $retId = $this->DestinationModel->addOrUpdate($destination);
                 $successMessage = ($id == $retId) ? 'Your changes have been saved !' : 'New destination created !';
                 $successMessage .= ' <a href=' . url('trip') . '>Back to my trips</a>';
                 return $this->edit($retId, $successMessage, $errors);
             }
-            else{
+            else
                 return $this->edit($id, '', $errors, $formResult);
-            }
         }
 
         public function delete($id){
-            $this->DestinationModel->deleteDestinationByID($id);
+            $this->DestinationModel->deleteDestinationById($id);
             header('Location: ' . cleanUrl('trip'));
         }
     }

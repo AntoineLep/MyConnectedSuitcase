@@ -1,7 +1,4 @@
 <?php
-    if(isset($destination[0])) //db result
-        $destination = $destination[0];
-
         $lat = isset($destination['lat']) ? $destination['lat'] : 0;
         $lng = isset($destination['lng']) ? $destination['lng'] : 0;
 ?>
@@ -33,8 +30,8 @@
                 $idTripValue = '""';
                 if(isset($idTrip))
                     $idTripValue = '"' . $idTrip . '"';
-                elseif (isset($destination['idTrip']))
-                    $idTripValue = '"' . $destination['idTrip'] . '"';
+                elseif (isset($destination['id_trip']))
+                    $idTripValue = '"' . $destination['id_trip'] . '"';
 
             ?>
             <input type="hidden" name="id-trip" value=<?php echo $idTripValue; ?>/>
@@ -121,14 +118,41 @@
                 </select>
                 <?php echo $helpBlock; ?>
             </div>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button>
         </form>
     </div>
 </div>
+<?php 
+    if(isset($destination) && $destination['id'] > 0) { 
+        $imageZoneCaption = (isset($destination['name']) && !isset($errors['name'])) ? 'Pictures of ' . $destination['name'] : 'Destination pictures';
+?>
 <div class="row">
-    <div class="col-md-12">
-        <h2 id="destination-picture">Destination pictures</h2>
-        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-    </div>
+        <h2 id="destination-picture"><?php echo $imageZoneCaption; ?></h2>
+        <?php
+            foreach ($images as $image) {
+            $src = img_path($imageFolder . '/' . $image['filename']);
+            $caption = (!is_null($image['caption']) && !empty(trim($image['caption']))) ? '<h3>' . $image['caption'] . '</h3>' : '';
+            $description = (!is_null($image['description']) && !empty(trim($image['description']))) ? '<p>' . $image['description'] . '</p>' : '';
+            $id = '"' . 'img' . $image['id'] . '"';
+        ?>
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail" id=<?php echo $id; ?>>
+                <img src=<?php echo $src; ?>>
+                <div class="caption">
+                    <?php echo $caption; ?>
+                    <?php echo $description; ?>
+                    <p>
+                        <a href=<?php echo url('image/' . $image['id']); ?> class="btn btn-primary" role="button"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Image info</a>&nbsp;
+                        <a href=<?php echo url('image/delete' . $image['id']); ?> class="btn btn-danger" href=<?php echo url('image/delete/' . $image['id']); ?> role="button" onclick="return confirm('Are you sure you want to delete this image?');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete image</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+        <div class="col-md-12">
+            <a class="btn btn-default" href=<?php echo url('image/-1/' . $destination['id']); ?> role="button">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New picture
+            </a>
+        </div>
 </div>
+<?php } ?>

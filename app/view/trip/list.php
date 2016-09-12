@@ -11,7 +11,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <a data-toggle="collapse" href=<?php echo '"#' . $cssId . '"'; ?> aria-expanded="false" aria-controls=<?php echo '"' . $cssId . '"'; ?>>
-                        <?php echo $trip['name']; ?>
+                        <strong><?php echo $trip['name']; ?></strong>
                     </a>
                     <span class="badge badge-info"><?php echo $destinationNumber; ?></span>
                     <span>
@@ -21,7 +21,7 @@
                     </span>
                     <span class="pull-right">
                         <a class="btn btn-primary" href=<?php echo url('trip/' . $trip['id']); ?> role="button">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit trip info
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Trip info
                         </a>&nbsp;
                         <a class="btn btn-danger" href=<?php echo url('trip/delete/' . $trip['id']); ?> role="button" onclick="return confirm('Are you sure you want to delete this item? All related content will be deleted');">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete trip
@@ -52,10 +52,10 @@
                             <?php echo '<strong>' . $destination['name'] . '</strong> ' . $fromDate . $toDate . $imgs ?>
                             <span class="pull-right">
                                 <a class="btn btn-primary" href=<?php echo url('destination/' . $destination['id']); ?> role="button">
-                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit info
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Destination info
                                 </a>&nbsp;
                                 <a class="btn btn-danger" href=<?php echo url('destination/delete/' . $destination['id']); ?> role="button" onclick="return confirm('Are you sure you want to delete this item? All related content will be deleted');">
-                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete destination
                                 </a>
                             </span>
                         </span>

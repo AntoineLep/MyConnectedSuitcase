@@ -15,6 +15,11 @@
         Router::post('/destination/:id', 'DestinationController.save')->with(':id', '[0-9]+');
         Router::get('/destination/delete/:id', 'DestinationController.delete')->with(':id', '[0-9]+');
 
+        Router::get('/image/-1/:idDestination', 'ImageController.create')->with(':idDestination', '[0-9]+');
+        Router::get('/image/:id', 'ImageController.edit')->with(':id', '[0-9]+');
+        Router::post('/image/:id', 'ImageController.save')->with(':id', '[0-9]+');
+        Router::get('/image/delete/:id', 'ImageController.delete')->with(':id', '[0-9]+');
+
         Router::get('/user', 'UserController');
         Router::get('/user/logout', 'UserController.logout');
 
