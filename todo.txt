@@ -1,8 +1,7 @@
 TODO
 ----
 
-Check fields when saving destination (return back with errors if the test does not pass)
-Care when deleting a destination --> Delete also all physical images
 Create a token when a user is connected. Use this token to validate a form has been sent by a specific user
 Create a usre image folder at user creation (check if the folder name doesn't exists before : case of 2 accounts with the same login)
 Create a link to destination info when displaying the destination name in trip list (to avoid clicking the button)
+When uploading an image, detect if it's a portrait or a paysage to rotate it if needed (portrait are in the wrong direction)
