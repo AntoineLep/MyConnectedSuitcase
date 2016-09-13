@@ -18,18 +18,23 @@
 
         <h2>Picture description</h2>
 
-        <form class="form-default" method="post" action=<?php echo $formAction; ?>>
+        <form class="form-default" method="post" action=<?php echo $formAction; ?> enctype="multipart/form-data">
             <?php
                 $idDestinationValue = '""';
                 if(isset($idDestination))
                     $idDestinationValue = '"' . $idDestination . '"';
-                elseif (isset($image['id_destination'])){
+                elseif(isset($image['id_destination'])){
                     $idDestinationValue = '"' . $image['id_destination'] . '"';
                     $idDestination = $image['id_destination'];
                 }
 
+                $dbImageValue = '""';
+                if(isset($image['filename']) && !empty($image['filename']))
+                    $dbImageValue = img_path($imageFolder . '/' . 'big_' . $image['filename']);
+
             ?>
             <input type="hidden" name="id-destination" value=<?php echo $idDestinationValue; ?>/>
+            <input type="hidden" name="db-image-filename" value=<?php echo '"' . $image['filename'] . '"'; ?>/>
 
             <?php
                 $imageCaptionValueField = isset($image['caption']) ? 'value="' . $image['caption'] . '"' : '';
@@ -54,10 +59,30 @@
                 <textarea class="form-control" id="db-image-description" name="db-image-description" rows="3" placeholder="Picture description"><?php echo $imageDescription; ?></textarea>
                 <?php echo $helpBlock; ?>
             </div>
-            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button>
-            <a class="btn btn-default" href=<?php echo url('destination/' . $idDestination . '#destination-picture'); ?> role="button">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Back to the destination info
-            </a>
+
+            <div class="row">
+                <?php if($dbImageValue != '""'){ ?>
+                <div class="col-md-6 container">
+                    <img class="img-responsive img-rounded" src=<?php echo $dbImageValue; ?>>
+                </div>
+                <?php } 
+
+                    $errorClass = (isset($errors['description'])) ? ' has-error has-feedback' : '';
+                    $formGroupClass = '"form-group' . $errorClass . ' col-md-6"';
+                    $helpBlock = (isset($errors['file'])) ? '<span class="help-block">' . $errors['file'] . '</span>' : '';
+                ?>
+                <div class=<?php echo $formGroupClass; ?>>
+                    <label for="db-image-file">File input: <?php if($dbImageValue != '""') echo '<em class="text-warning">(The current picture will be overwritten)</em>'; ?></label>
+                    <input type="file" id="db-image-file" name="db-image-file">
+                    <?php echo $helpBlock; ?>
+                </div>
+            </div><br/>
+            <div class="row">
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button>
+                <a class="btn btn-default" href=<?php echo url('destination/' . str_replace('"', '', $idDestinationValue) . '#destination-picture'); ?> role="button">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back to the destination info
+                </a>
+            </div>
         </form>
     </div>
 </div>

@@ -70,7 +70,7 @@
         }
 
         public function delete($id){
-            $this->DestinationModel->deleteTripById($id);
+            $this->TripModel->deleteTripById($id);
             header('Location: ' . cleanUrl('trip'));
         }
     }

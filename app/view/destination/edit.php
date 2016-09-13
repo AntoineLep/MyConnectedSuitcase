@@ -130,20 +130,20 @@
         <h2 id="destination-picture"><?php echo $imageZoneCaption; ?></h2>
         <?php
             foreach ($images as $image) {
-            $src = img_path($imageFolder . '/' . $image['filename']);
+            $src = img_path($imageFolder . '/' . 'small_' . $image['filename']);
             $caption = (!is_null($image['caption']) && !empty(trim($image['caption']))) ? '<h3>' . $image['caption'] . '</h3>' : '';
             $description = (!is_null($image['description']) && !empty(trim($image['description']))) ? '<p>' . $image['description'] . '</p>' : '';
             $id = '"' . 'img' . $image['id'] . '"';
         ?>
         <div class="col-sm-6 col-md-4">
             <div class="thumbnail" id=<?php echo $id; ?>>
-                <img src=<?php echo $src; ?>>
+                 <a href=<?php echo url('image/' . $image['id']); ?>><img src=<?php echo $src; ?>></a>
                 <div class="caption">
                     <?php echo $caption; ?>
                     <?php echo $description; ?>
                     <p>
                         <a href=<?php echo url('image/' . $image['id']); ?> class="btn btn-primary" role="button"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Image info</a>&nbsp;
-                        <a href=<?php echo url('image/delete' . $image['id']); ?> class="btn btn-danger" href=<?php echo url('image/delete/' . $image['id']); ?> role="button" onclick="return confirm('Are you sure you want to delete this image?');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete image</a>
+                        <a href=<?php echo url('image/delete/' . $image['id']); ?> class="btn btn-danger" href=<?php echo url('image/delete/' . $image['id']); ?> role="button" onclick="return confirm('Are you sure you want to delete this image?');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete image</a>
                     </p>
                 </div>
             </div>

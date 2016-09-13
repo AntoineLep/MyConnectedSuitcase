@@ -25,13 +25,13 @@
             if($id > 0 && $destination == null)
                 $destination = $this->DestinationModel->getDestinationById($id);
             $images = (isset($destination['id'])) ? $this->ImageModel->getImageByDestinationId($destination['id']) : null;
-            $imageFolder = 'user_images';
+            $imageFolder = '';
 
             if(count($images) > 0){
                 $this->loadModel('UserModel');
                 $user = $this->UserModel->getUserInfo();
                 if($user)
-                    $imageFolder .= '/' . $user['image_folder'];
+                    $imageFolder = USER_IMAGES_FOLDER_NAME . '/' . $user['image_folder'];
             }
 
             $transportationTypes = $this->TransportationTypeModel->getAllTransportationType();
@@ -50,8 +50,7 @@
                            'startDate' => (isset($_POST['db-location-start-date']) && !empty(trim($_POST['db-location-start-date']))) ? $_POST['db-location-start-date'] : '',
                            'endDate' => (isset($_POST['db-location-end-date']) && !empty(trim($_POST['db-location-end-date']))) ? $_POST['db-location-end-date'] : '',
                            'transportationType' => (isset($_POST['transportation-type']) && !empty(trim($_POST['transportation-type']))) ? $_POST['transportation-type'] : ''];
-            if(isset($_POST['id-trip']))
-                $formResult['id_trip'] = !empty(trim($_POST['id-trip'])) ? $_POST['id-trip'] : null;
+            $formResult['id_trip'] = (isset($_POST['id-trip']) &&!empty(trim($_POST['id-trip']))) ? $_POST['id-trip'] : '';
 
             $errors = [];
 
@@ -110,13 +109,10 @@
                 $destination['transportationType'] = 1;
 
             //Trip id
-            if(isset($formResult['idTrip']))
-                if($formResult['idTrip'] != null)
-                    $destination['idTrip'] = $formResult['idTrip'];
-                else
-                    $destination['idTrip'] = -1;
+            if($formResult['id_trip'] != '')
+                $destination['id_trip'] = $formResult['id_trip'];
             else
-                $destination['idTrip'] = -1;
+                $destination['id_trip'] = -1;
 
             if(count($errors) == 0){
                 $retId = $this->DestinationModel->addOrUpdate($destination);

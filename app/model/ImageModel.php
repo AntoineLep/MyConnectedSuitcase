@@ -45,16 +45,91 @@
        }
 
         public function addOrUpdate($image){
-            //todo
-            return 1;
+            if(!$this->isUserValid($image['id']))
+                return false;
+            if($image['id'] == -1){
+                $destinationModel = new DestinationModel();
+                if(count($destinationModel->getDestinationById($image['id_destination'])) == 0)
+                    return false;
+
+                $userModel = new UserModel();
+                $user = $userModel->getUserInfo();
+                $repDest = ASSETS_FOLDER . DS . 'img' . DS . USER_IMAGES_FOLDER_NAME . DS . $user['image_folder'] . DS;
+                $imgSmallDest = 'small_' . $image['filename'];
+                $imgBigDest = 'big_' . $image['filename'];
+                
+                $redimSmall = resizeImg(400, 400, $repDest, $imgSmallDest, $image['filedir'], $image['filename']);
+                $redimBig = resizeImg(1200, 1200, $repDest, $imgBigDest, $image['filedir'], $image['filename']);
+
+                if($redimSmall && $redimBig)
+                    unlink($image['filedir'] . $image['filename']);
+
+                unset($image['id']);
+                unset($image['filedir']);
+
+                $sth = $this->db->prepare('INSERT INTO image (caption, filename, description, id_destination) 
+                                            VALUES(:caption, :filename, :description, :id_destination)');
+                $sth->execute($image);
+                return $this->db->lastInsertID();
+            }
+            else {
+                unset($image['id_destination']);
+                if($image['filename'] == ''){
+                    unset($image['filename']);
+                    unset($image['filedir']);
+                    $sth = $this->db->prepare('UPDATE image 
+                                                SET caption = :caption, description = :description
+                                                WHERE id = :id');
+                }
+                else {
+                    $userModel = new UserModel();
+                    $user = $userModel->getUserInfo();
+                    $repDest = ASSETS_FOLDER . DS . 'img' . DS . USER_IMAGES_FOLDER_NAME . DS . $user['image_folder'] . DS;
+                    $imgSmallDest = 'small_' . $image['filename'];
+                    $imgBigDest = 'big_' . $image['filename'];
+                    
+                    $redimSmall = resizeImg(400, 400, $repDest, $imgSmallDest, $image['filedir'], $image['filename']);
+                    $redimBig = resizeImg(1200, 1200, $repDest, $imgBigDest, $image['filedir'], $image['filename']);
+
+                    if($redimSmall && $redimBig)
+                        unlink($image['filedir'] . $image['filename']);
+
+                    $img = $this->getImageById($image['id']);
+
+                    if($img != null){
+                        unlink($repDest . 'small_' . $img['filename']);
+                        unlink($repDest . 'big_' . $img['filename']);
+                    }
+
+                    unset($image['filedir']);
+                    $sth = $this->db->prepare('UPDATE image 
+                                                SET caption = :caption, description = :description, filename = :filename
+                                                WHERE id = :id');
+                }
+
+                $sth->execute($image);
+                return $image['id'];
+            }
         }
 
 
-        public function deleteDestinationById($id){
+        public function deleteImageById($id){
             if(!$this->isUserValid($id))
                 return false;
+
+            $img = $this->getImageById($image['id']);
             $sth = $this->db->prepare('DELETE FROM image WHERE id = :id');
             $sth->execute([':id' => $id]);
+
+            if($img != null){
+                $userModel = new UserModel();
+                $user = $userModel->getUserInfo();
+                $repDest = ASSETS_FOLDER . DS . 'img' . DS . USER_IMAGES_FOLDER_NAME . DS . $user['image_folder'] . DS;
+
+                unlink($repDest . 'small_' . $img['filename']);
+                unlink($repDest . 'big_' . $img['filename']);
+            }
+
             return true;
         }
 

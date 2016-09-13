@@ -22,6 +22,8 @@
 
     define('TEMPLATE_FOLDER', VIEW_FOLDER . DS . 'template');
 
+    define('USER_IMAGES_FOLDER_NAME', 'user_images');
+
     class Extension {
         /**
         * (array) Supported php file exetensions

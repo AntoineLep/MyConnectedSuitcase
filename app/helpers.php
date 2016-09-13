@@ -85,4 +85,80 @@
     function cleanUrl($uri){
         return substr($uri, 0, 1) == '/' ? BASE_URL . $uri : BASE_URL . '/' . $uri;
     }
-?>
+
+
+    function resizeImg($Wmax, $Hmax, $rep_Dst, $img_Dst, $rep_Src, $img_Src){
+        $condition = 0;
+        if ($rep_Dst == ''){ $rep_Dst = $rep_Src; }
+        if ($img_Dst == ''){ $img_Dst = $img_Src; }
+        if ($Wmax == ''){ $Wmax = 0; }
+        if ($Hmax == ''){ $Hmax = 0; }
+
+        if (file_exists($rep_Src.$img_Src) && ($Wmax!=0 || $Hmax!=0)){
+            $imageExtensions = ['jpg', 'jpeg', 'png'];
+            $tabimage = explode('.', $img_Src);
+            $extension = $tabimage[sizeof($tabimage) - 1];
+            $extension = strtolower($extension);
+
+            if (in_array($extension, $imageExtensions)){
+                $size = getimagesize($rep_Src.$img_Src);
+                $W_Src = $size[0];
+                $H_Src = $size[1];
+
+                if ($Wmax != 0 && $Hmax != 0){
+                    $ratiox = $W_Src / $Wmax;
+                    $ratioy = $H_Src / $Hmax;
+                    $ratio = max($ratiox,$ratioy);
+                    $W = $W_Src / $ratio;
+                    $H = $H_Src / $ratio;
+                    $condition = ($W_Src > $W) || ($W_Src > $H);
+                }
+
+                    if ($Hmax != 0 && $Wmax == 0){
+                    $H = $Hmax;
+                    $W = $H * ($W_Src / $H_Src);
+                    $condition = $H_Src > $Hmax;
+                }
+
+                if ($Wmax != 0 && $Hmax == 0){
+                    $W = $Wmax;
+                    $H = $W * ($H_Src / $W_Src);
+                    $condition = $W_Src > $Wmax;
+                }
+
+                if ($condition == 1){
+                    switch($extension){
+                        case 'jpg':
+                        case 'jpeg':
+                            $Ress_Src = imagecreatefromjpeg($rep_Src.$img_Src);
+                            $Ress_Dst = ImageCreateTrueColor($W,$H);
+                            break;
+                        case 'png':
+                            $Ress_Src = imagecreatefrompng($rep_Src.$img_Src);
+                            $Ress_Dst = ImageCreateTrueColor($W,$H);
+                            imagesavealpha($Ress_Dst, true);
+                            $trans_color = imagecolorallocatealpha($Ress_Dst, 0, 0, 0, 127);
+                            imagefill($Ress_Dst, 0, 0, $trans_color);
+                            break;
+                    }
+
+                    ImageCopyResampled($Ress_Dst, $Ress_Src, 0, 0, 0, 0, $W, $H, $W_Src, $H_Src);
+                    switch ($extension){
+                        case 'jpg':
+                        case 'jpeg':
+                            ImageJpeg ($Ress_Dst, $rep_Dst.$img_Dst);
+                            break;
+                        case 'png':
+                            imagepng ($Ress_Dst, $rep_Dst.$img_Dst);
+                            break;
+                    }
+
+                    imagedestroy ($Ress_Src);
+                    imagedestroy ($Ress_Dst);
+                }
+            }
+        }
+        if ($condition == 1 && file_exists($rep_Dst.$img_Dst)) 
+            return true;
+        return false;
+    }

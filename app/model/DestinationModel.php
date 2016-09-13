@@ -65,17 +65,17 @@
 
             if($destination['id'] == -1){
                 $tripModel = new TripModel();
-                if(count($tripModel->getTripById($destination['id_trip']) == 0))
+                if(count($tripModel->getTripById($destination['id_trip'])) == 0)
                     return false;
 
                 unset($destination['id']);
                 $sth = $this->db->prepare('INSERT INTO destination (name, lat, lng, description, startDate, endDate, id_transportation_type, id_trip) 
-                                            VALUES(:name, :lat, :lng, :description, :startDate, :endDate, :transportationType, :idTrip)');
+                                            VALUES(:name, :lat, :lng, :description, :startDate, :endDate, :transportationType, :id_trip)');
                 $sth->execute($destination);
                 return $this->db->lastInsertID();
             }
             else {
-                unset($destination['idTrip']);
+                unset($destination['id_trip']);
                 $sth = $this->db->prepare('UPDATE destination 
                                             SET name = :name, lat = :lat, lng = :lng, description = :description, startDate = :startDate, endDate = :endDate, id_transportation_type = :transportationType
                                             WHERE id = :id');
