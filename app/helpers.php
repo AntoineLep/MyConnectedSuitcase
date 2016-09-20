@@ -86,6 +86,13 @@
         return substr($uri, 0, 1) == '/' ? BASE_URL . $uri : BASE_URL . '/' . $uri;
     }
 
+    /**
+    * Tells if the user is connected or not
+    * @return (bool) True if the user is connected, false otherwise
+    */
+    function user_is_connected(){
+        return isset($_SESSION['idUser']);
+    }
 
     function resizeImg($Wmax, $Hmax, $rep_Dst, $img_Dst, $rep_Src, $img_Src){
         $condition = 0;
@@ -162,3 +169,4 @@
             return true;
         return false;
     }
+?>

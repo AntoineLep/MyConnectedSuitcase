@@ -54,6 +54,18 @@ body{
   }
 }
 
+#homepage-wrapper {
+  padding: 5px;
+  min-height: 568px;
+  background-color: white;
+}
+
+@media (min-width: 768px) {
+  #homepage-wrapper {
+    position: inherit;
+    padding: 10px;
+  }
+}
 .sidebar a {
   color: #444444;
 }
@@ -103,4 +115,25 @@ body{
 .row {
   margin-left: 0px;
   margin-right: 0px;
+}
+
+.navbar-top-links {
+  margin-right: 0;
+}
+.navbar-top-links li {
+  display: inline-block;
+}
+.navbar-top-links li:last-child {
+  margin-right: 15px;
+}
+.navbar-top-links li a {
+  padding: 15px;
+  min-height: 50px;
+}
+.navbar-top-links .dropdown-menu li {
+  display: block;
+}
+.navbar-top-links .dropdown-menu li a {
+  padding: 3px 20px;
+  min-height: 0;
 }

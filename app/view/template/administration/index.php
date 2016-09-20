@@ -41,7 +41,6 @@
                 <?php } ?>
 
                 <?php echo $_viewContent; ?>
-                
             </div>
         </div>
 
