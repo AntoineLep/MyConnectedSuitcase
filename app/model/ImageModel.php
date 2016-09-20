@@ -95,7 +95,7 @@
                         unlink($image['filedir'] . $image['filename']);
 
                     $img = $this->getImageById($image['id']);
-
+                    var_dump($img);
                     if($img != null){
                         unlink($repDest . 'small_' . $img['filename']);
                         unlink($repDest . 'big_' . $img['filename']);
@@ -117,7 +117,7 @@
             if(!$this->isUserValid($id))
                 return false;
 
-            $img = $this->getImageById($image['id']);
+            $img = $this->getImageById($id);
             $sth = $this->db->prepare('DELETE FROM image WHERE id = :id');
             $sth->execute([':id' => $id]);
 
@@ -131,6 +131,31 @@
             }
 
             return true;
+        }
+
+        //This function is called without user verification in it. It have to be done in the calling function
+        public function getImagesWithTripId($tripId){
+            $sth = $this->db->prepare('SELECT image.id FROM image 
+                                        JOIN destination ON image.id_destination = destination.id
+                                        JOIN trip ON destination.id_trip = trip.id
+                                        WHERE trip.id = :tripId');
+            $sth->execute([':tripId' => $tripId]);
+            $result = $sth->fetchAll();
+            if(isset($result[0]))
+                return $result;
+            return null;
+        }
+
+        //This function is called without user verification in it. It have to be done in the calling function
+        public function getImagesWithDestinationId($destinationId){
+            $sth = $this->db->prepare('SELECT image.id FROM image 
+                                        JOIN destination ON image.id_destination = destination.id
+                                        WHERE destination.id = :destinationId');
+            $sth->execute([':destinationId' => $destinationId]);
+            $result = $sth->fetchAll();
+            if(isset($result[0]))
+                return $result;
+            return null;
         }
 
     }

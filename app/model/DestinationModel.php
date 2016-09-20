@@ -48,12 +48,22 @@
                 return null;
             $sth = $this->db->prepare('SELECT * FROM destination WHERE id = :id');
             $sth->execute([':id' => $id]);
-            return $sth->fetchAll()[0];
+            $result = $sth->fetchAll();
+            if(isset($result[0])) 
+                return $result[0];
+            return null;
         }
 
         public function deleteDestinationById($id){
             if(!$this->isUserValid($id))
                 return false;
+
+            $imageModel = new ImageModel();
+            $imagesInDestination = $imageModel->getImagesWithDestinationId($id);
+            
+            foreach ($imagesInDestination as $image)
+                $imageModel->deleteImageById($image['id']);
+
             $sth = $this->db->prepare('DELETE FROM destination WHERE id = :id');
             $sth->execute([':id' => $id]);
             return true;

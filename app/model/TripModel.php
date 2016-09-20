@@ -64,8 +64,16 @@
         public function deleteTripById($id){
             if(!$this->isUserValid($id))
                 return false;
+
+            $imageModel = new ImageModel();
+            $imagesInTrip = $imageModel->getImagesWithTripId($id);
+
+            foreach ($imagesInTrip as $image)
+                $imageModel->deleteImageById($image['id']);
+
             $sth = $this->db->prepare('DELETE FROM trip WHERE id = :id AND id_user = :idUser');
             $sth->execute([':id' => $id, ':idUser' => $this->idUser]);
+
             return true;
         }
     }

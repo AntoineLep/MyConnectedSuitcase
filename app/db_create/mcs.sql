@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
+-- version 4.5.5.1
 -- http://www.phpmyadmin.net
 --
--- Client :  127.0.0.1
--- Généré le :  Lun 12 Septembre 2016 à 01:59
--- Version du serveur :  5.6.17
--- Version de PHP :  5.5.12
+-- Host: 127.0.0.1
+-- Generation Time: Sep 20, 2016 at 02:59 PM
+-- Server version: 5.7.11
+-- PHP Version: 5.6.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,10 +14,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `mcs`
+-- Database: `mcs`
 --
 DROP DATABASE `mcs`;
 CREATE DATABASE IF NOT EXISTS `mcs` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
@@ -26,12 +26,11 @@ USE `mcs`;
 -- --------------------------------------------------------
 
 --
--- Structure de la table `destination`
+-- Table structure for table `destination`
 --
 
-DROP TABLE IF EXISTS `destination`;
-CREATE TABLE IF NOT EXISTS `destination` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `destination` (
+  `id` int(10) NOT NULL,
   `name` varchar(200) NOT NULL,
   `lat` varchar(30) NOT NULL,
   `lng` varchar(30) NOT NULL,
@@ -39,14 +38,11 @@ CREATE TABLE IF NOT EXISTS `destination` (
   `startDate` date DEFAULT NULL,
   `endDate` date DEFAULT NULL,
   `id_transportation_type` int(10) NOT NULL,
-  `id_trip` int(10) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_transportation_type` (`id_transportation_type`),
-  KEY `id_trip` (`id_trip`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+  `id_trip` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `destination`
+-- Dumping data for table `destination`
 --
 
 INSERT INTO `destination` (`id`, `name`, `lat`, `lng`, `description`, `startDate`, `endDate`, `id_transportation_type`, `id_trip`) VALUES
@@ -57,47 +53,42 @@ INSERT INTO `destination` (`id`, `name`, `lat`, `lng`, `description`, `startDate
 -- --------------------------------------------------------
 
 --
--- Structure de la table `image`
+-- Table structure for table `image`
 --
 
-DROP TABLE IF EXISTS `image`;
-CREATE TABLE IF NOT EXISTS `image` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `image` (
+  `id` int(10) NOT NULL,
   `caption` varchar(200) DEFAULT NULL,
   `filename` varchar(250) NOT NULL,
   `description` text,
-  `id_destination` int(10) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_destination` (`id_destination`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `id_destination` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `image`
+-- Dumping data for table `image`
 --
 
 INSERT INTO `image` (`id`, `caption`, `filename`, `description`, `id_destination`) VALUES
-(1, 'fishing in Egypt', 'fishing_egypte.jpg', NULL, 1),
-(2, 'fishing at Sydney', 'PecheASydney.jpg', NULL, 1),
-(3, '', 'test/fake3.jpg', 'This is a described fake :)', 2);
+(1, 'fishing pont neuf', '1b730a3ea99908aca1fc0edad029e434f349c59714e848183601b72a05b4e1b5.jpg', '', 1),
+(2, 'fishing canal du midi', 'd2d95580bcf1be0cbabe1468887b83067a1ed17816d00f22cec0d6f5d34747f7.jpg', '', 1),
+(3, 'Paris best site seing', '7a49c6e68f2de8c1912c79856428f14d80ed8f3ad8ef8fc3d8eed4b0241122b2.png', 'This is a described fake :)', 2);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `transportation_type`
+-- Table structure for table `transportation_type`
 --
 
-DROP TABLE IF EXISTS `transportation_type`;
-CREATE TABLE IF NOT EXISTS `transportation_type` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `transportation_type` (
+  `id` int(10) NOT NULL,
   `name` varchar(200) NOT NULL,
   `img_folder` varchar(200) NOT NULL,
   `img_prefix` varchar(50) NOT NULL,
-  `img_extension` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+  `img_extension` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `transportation_type`
+-- Dumping data for table `transportation_type`
 --
 
 INSERT INTO `transportation_type` (`id`, `name`, `img_folder`, `img_prefix`, `img_extension`) VALUES
@@ -113,21 +104,18 @@ INSERT INTO `transportation_type` (`id`, `name`, `img_folder`, `img_prefix`, `im
 -- --------------------------------------------------------
 
 --
--- Structure de la table `trip`
+-- Table structure for table `trip`
 --
 
-DROP TABLE IF EXISTS `trip`;
-CREATE TABLE IF NOT EXISTS `trip` (
-  `id` int(100) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `trip` (
+  `id` int(100) NOT NULL,
   `name` varchar(200) NOT NULL,
   `description` text,
-  `id_user` int(10) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_user` (`id_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `id_user` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `trip`
+-- Dumping data for table `trip`
 --
 
 INSERT INTO `trip` (`id`, `name`, `description`, `id_user`) VALUES
@@ -137,24 +125,22 @@ INSERT INTO `trip` (`id`, `name`, `description`, `id_user`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `user`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
   `login` varchar(200) NOT NULL,
   `passwd` varchar(200) NOT NULL,
   `mail` varchar(250) NOT NULL,
   `registred_date` date NOT NULL,
   `activation_key` varchar(250) DEFAULT NULL,
   `image_folder` varchar(200) NOT NULL,
-  `status` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `login`, `passwd`, `mail`, `registred_date`, `activation_key`, `image_folder`, `status`) VALUES
@@ -162,24 +148,91 @@ INSERT INTO `user` (`id`, `login`, `passwd`, `mail`, `registred_date`, `activati
 (2, 'test', 'test', 'test', '0000-00-00', NULL, '', 1);
 
 --
--- Contraintes pour les tables exportées
+-- Indexes for dumped tables
 --
 
 --
--- Contraintes pour la table `destination`
+-- Indexes for table `destination`
+--
+ALTER TABLE `destination`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_transportation_type` (`id_transportation_type`),
+  ADD KEY `id_trip` (`id_trip`);
+
+--
+-- Indexes for table `image`
+--
+ALTER TABLE `image`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_destination` (`id_destination`);
+
+--
+-- Indexes for table `transportation_type`
+--
+ALTER TABLE `transportation_type`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `trip`
+--
+ALTER TABLE `trip`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user` (`id_user`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `destination`
+--
+ALTER TABLE `destination`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `image`
+--
+ALTER TABLE `image`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `transportation_type`
+--
+ALTER TABLE `transportation_type`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `trip`
+--
+ALTER TABLE `trip`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `destination`
 --
 ALTER TABLE `destination`
   ADD CONSTRAINT `destination_ibfk_1` FOREIGN KEY (`id_transportation_type`) REFERENCES `transportation_type` (`id`),
   ADD CONSTRAINT `destination_ibfk_2` FOREIGN KEY (`id_trip`) REFERENCES `trip` (`id`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `image`
+-- Constraints for table `image`
 --
 ALTER TABLE `image`
   ADD CONSTRAINT `image_ibfk_1` FOREIGN KEY (`id_destination`) REFERENCES `destination` (`id`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `trip`
+-- Constraints for table `trip`
 --
 ALTER TABLE `trip`
   ADD CONSTRAINT `trip_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE;

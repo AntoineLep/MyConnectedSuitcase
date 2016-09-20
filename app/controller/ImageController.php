@@ -71,11 +71,34 @@
                                 $this->loadModel('UserModel');
                                 $user = $this->UserModel->getUserInfo();
                                 $image['filedir'] = ASSETS_FOLDER . DS . 'img' . DS . USER_IMAGES_FOLDER_NAME . DS . $user['image_folder'] . DS . '_temp' . DS;
+
+                                $ressourceImage = imagecreatefromstring(file_get_contents($_FILES['db-image-file']['tmp_name']));
+                                $exif = exif_read_data($_FILES['db-image-file']['tmp_name']);
+                                if(!empty($exif['Orientation'])) {
+                                    switch($exif['Orientation']) {
+                                        case 8:
+                                            $ressourceImage = imagerotate($ressourceImage,90,0);
+                                            break;
+                                        case 3:
+                                            $ressourceImage = imagerotate($ressourceImage,180,0);
+                                            break;
+                                        case 6:
+                                            $ressourceImage = imagerotate($ressourceImage,-90,0);
+                                            break;
+                                    }
+                                }
+
+                                if($extension == 'png')
+                                    imagepng($ressourceImage, $_FILES['db-image-file']['tmp_name']);
+                                else
+                                    imagejpeg($ressourceImage, $_FILES['db-image-file']['tmp_name']);
+
                                 if(!move_uploaded_file($_FILES['db-image-file']['tmp_name'], $image['filedir'] . $image['filename']))
                                     $errors['file'] = 'An internal error occured. Cannot transfer the file for the moment';
+
                         }
                         else
-                            $errors['file'] = 'Supported file extensions are: .jpg, .jpeg or .png';
+                            $errors['file'] = 'Supported file extensions are: .jpg/.jpeg or .png';
                     }
                     else
                         $errors['file'] = 'No image file selected';
