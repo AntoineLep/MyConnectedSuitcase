@@ -49,6 +49,7 @@
             $sth = $this->db->prepare('SELECT * FROM destination WHERE id = :id');
             $sth->execute([':id' => $id]);
             $result = $sth->fetchAll();
+            
             if(isset($result[0])) 
                 return $result[0];
             return null;

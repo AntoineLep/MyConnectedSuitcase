@@ -94,6 +94,27 @@
         return isset($_SESSION['idUser']);
     }
 
+    /**
+    * Try to autolog the user if a cookie exists
+    */
+    function autologin(){
+        if(isset($_COOKIE['rememberMe'])){
+            $expl = explode('____', $_COOKIE['rememberMe']);
+            if(count($expl) == 2){
+                $email = $expl[0];
+                $cryptedKey = $expl[1];
+                var_dump($email);
+                var_dump($cryptedKey);
+                $userModel = new UserModel();
+                $dbUser = $userModel->getUserWithEmail($email);
+
+                if($dbUser != null)
+                    if($dbUser['activation_key'] == $cryptedKey)
+                        $_SESSION['idUser'] = $dbUser['id'];
+            }
+        }
+    }
+
     function resizeImg($Wmax, $Hmax, $rep_Dst, $img_Dst, $rep_Src, $img_Src){
         $condition = 0;
         if ($rep_Dst == ''){ $rep_Dst = $rep_Src; }

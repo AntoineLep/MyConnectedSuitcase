@@ -13,7 +13,7 @@
         <div id="wrapper">
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href=<?php echo url('trip'); ?>><?php echo PROGRAM_TITLE; ?></a>
+                    <a class="navbar-brand" href=<?php echo url('/'); ?>><?php echo PROGRAM_TITLE; ?></a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <?php if(!user_is_connected()) { ?>
@@ -24,6 +24,9 @@
                             <a href=<?php echo url('/user/signup') ?>><i class="fa fa-plus fa-fw"></i> Sign up</a>
                         </li>
                     <?php } else { ?>
+                        <li>
+                            <a href=<?php echo url('/trip') ?>><i class="fa fa-globe fa-fw"></i> My trips</a>
+                        </li>
                         <li>
                             <a href=<?php echo url('/user/logout') ?>><i class="fa fa-sign-out fa-fw"></i> Log out</a>
                         </li>

@@ -1,0 +1,1 @@
+<h2>Re send verification E-mail</h2>

@@ -20,13 +20,22 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href=<?php echo url('trip'); ?>><?php echo PROGRAM_TITLE; ?></a>
+                    <a class="navbar-brand" href=<?php echo url('/'); ?>><?php echo PROGRAM_TITLE; ?></a>
                 </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <a href=<?php echo url('/trip') ?>><i class="fa fa-globe fa-fw"></i> My trips</a>
+                    </li>
+                    <li>
+                        <a href=<?php echo url('/user/logout') ?>><i class="fa fa-sign-out fa-fw"></i> Log out</a>
+                    </li>
+                </ul>
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
+                            <li> <a href=<?php echo url('/'); ?>><i class="fa fa-home fa-fw"></i> Home</a></li>
                             <li> <a href=<?php echo url('trip'); ?>><i class="fa fa-globe fa-fw"></i> Trips</a></li>
-                            <li> <a href=<?php echo url('/'); ?>><i class="fa fa-map fa-fw"></i> Trip map</a></li>
+                            <li> <a href=<?php echo url('#'); ?>><i class="fa fa-map fa-fw"></i> Trip map</a></li>
                             <li> <a href=<?php echo url('user'); ?>><i class="fa fa-user fa-fw"></i> User profile</a></li>
                             <li> <a href=<?php echo url('user/logout'); ?>><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
                             <li> <a href=<?php echo url('about'); ?>><i class="fa fa-question fa-fw"></i> About</a></li>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 20, 2016 at 02:59 PM
+-- Generation Time: Sep 21, 2016 at 03:43 PM
 -- Server version: 5.7.11
 -- PHP Version: 5.6.19
 
@@ -144,7 +144,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `login`, `passwd`, `mail`, `registred_date`, `activation_key`, `image_folder`, `status`) VALUES
-(1, 'AntoineLep', '$2y$10$ZykoOqQ7hkgFhzkEaPxRE.22vgjFsbNQI59/OfRu.9KP3bXsGJMaK', 'leprevost.antoine@gmail.com', '2016-09-06', NULL, 'AntoineLep', 1),
+(1, 'AntoineLep', '$2y$10$ZykoOqQ7hkgFhzkEaPxRE.22vgjFsbNQI59/OfRu.9KP3bXsGJMaK', 'leprevost.antoine@gmail.com', '2016-09-06', '325622335218f97f9b94c4705ea624bd', 'AntoineLep', 1),
 (2, 'test', 'test', 'test', '0000-00-00', NULL, '', 1);
 
 --
@@ -183,7 +183,8 @@ ALTER TABLE `trip`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `mail` (`mail`);
 
 --
 -- AUTO_INCREMENT for dumped tables

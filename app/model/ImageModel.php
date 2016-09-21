@@ -41,7 +41,11 @@
                 return null;
             $sth = $this->db->prepare('SELECT * FROM image WHERE id = :id');
             $sth->execute([':id' => $id]);
-            return $sth->fetchAll()[0];
+            $result = $sth->fetchAll();
+
+            if(isset($result[0]))
+                return $result[0];
+            return null;
        }
 
         public function addOrUpdate($image){
@@ -141,6 +145,7 @@
                                         WHERE trip.id = :tripId');
             $sth->execute([':tripId' => $tripId]);
             $result = $sth->fetchAll();
+
             if(isset($result[0]))
                 return $result;
             return null;
@@ -153,6 +158,7 @@
                                         WHERE destination.id = :destinationId');
             $sth->execute([':destinationId' => $destinationId]);
             $result = $sth->fetchAll();
+            
             if(isset($result[0]))
                 return $result;
             return null;

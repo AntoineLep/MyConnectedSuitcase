@@ -3,5 +3,4 @@ TODO
 Create the login / signup system using captcha and mail sending
 Check the user is connected in every constructors of administration pages. IF he's  not, then redirect him to the login page
 Create a token when a user is connected. Use this token to validate a form has been sent by a specific user
-Create a user image folder at user creation (check if the folder name doesn't exists before : case of 2 accounts with the same login)
 Create a link to destination info when displaying the destination name in trip list (to avoid clicking the button)

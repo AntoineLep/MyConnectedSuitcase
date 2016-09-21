@@ -35,7 +35,11 @@
                 return null;
             $sth = $this->db->prepare('SELECT * FROM trip WHERE id = :id AND id_user = :idUser');
             $sth->execute([':id' => $id, ':idUser' => $this->idUser]);
-            return $sth->fetchAll()[0];
+            $result = $sth->fetchAll();
+
+            if(isset($result[0]))
+                return $result[0];
+            return null;
         }
 
         public function addOrUpdate($trip){
