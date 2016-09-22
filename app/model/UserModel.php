@@ -19,8 +19,27 @@
             return null;
         }
 
+        public function getUserById($id){
+            $sth = $this->db->prepare('SELECT * FROM user WHERE id = :id');
+            $sth->execute([':id' => $id]);
+            $result = $sth->fetchAll();
+
+            if(isset($result[0]))
+                return $result[0];
+
+            return null;
+        }
+
+        public function activateUserWithId($id){
+            $sth = $this->db->prepare('UPDATE user 
+                                        SET status = 1
+                                        WHERE id = :id');
+            $sth->execute([':id' => $id]);
+            return $id;
+        }
+
         public function getUserWithEmail($email){
-            $sth = $this->db->prepare('SELECT * FROM user WHERE mail = :email');
+            $sth = $this->db->prepare('SELECT * FROM user WHERE email = :email');
             $sth->execute([':email' => $email]);
             $result = $sth->fetchAll();
 
@@ -66,10 +85,15 @@
                 $user['password1'] = password_hash($user['password1'], PASSWORD_DEFAULT);
                 $user['activation_key'] = md5(uniqid() . microtime());
 
-                $sth = $this->db->prepare('INSERT INTO user (username, passwd, mail, registred_date, activation_key, image_folder, status) 
+                $sth = $this->db->prepare('INSERT INTO user (username, password, email, registred_date, activation_key, image_folder, status) 
                                             VALUES(:username, :password1, :email, :registred_date, :activation_key, :image_folder, :status)');
                 $sth->execute($user);
-                return $this->db->lastInsertID();
+                $lastID = $this->db->lastInsertID();
+                $user['id'] = $lastID;
+
+                sendValidationEmail($user);
+
+                return $lastID;
             }
             else {
                 //TODO : user update info

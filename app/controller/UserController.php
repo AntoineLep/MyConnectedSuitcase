@@ -21,18 +21,59 @@
             $this->template = 'default';
             $this->loadView('user/signup', compact('user', 'errors', 'success'));
             $this->render();
-
-            //unique id generation : md5(uniqid() . microtime()
         }
 
-        public function resendemail(){
+        public function activate($id, $activationKey){
             $this->template = 'default';
-            $this->loadView('user/resendemail');
+            $dbUser = $this->UserModel->getUserById($id);
+            if($dbUser != null){
+                if($dbUser['activation_key'] == $activationKey){
+                    $this->UserModel->activateUserWithId($id);
+                    $success = 'Your account is now activated! <a href=' . url('/trip') . '>Create your first trip</a>';
+                    $_SESSION['idUser'] = $dbUser['id'];
+                    $this->loadView('user/activation', compact('success'));
+                    $this->render();
+                    return;
+                }
+            }
+
+            $error = 'An error occured when trying to activate your account. Please contact an administrator...';
+            $this->loadView('user/activation', compact('error'));
+            $this->render();
+            return;
+        }
+
+        public function resendemail($user = null, $errors = null, $success = null){
+            $this->template = 'default';
+            $this->loadView('user/resendemail', compact('user', 'errors', 'success'));
             $this->render();
         }
 
+        public function doResendemail(){
+            $formResult = ['email' => (isset($_POST['email']) && !empty(trim($_POST['email']))) ? $_POST['email'] : ''];
+
+            $errors = [];
+
+            //email
+            if($formResult['email'] == '')
+                $errors['email'] = 'E-mail required';
+
+            $dbUser = $this->UserModel->getUserWithEmail($formResult['email']);
+            if($dbUser == null)
+                $errors['other'] = 'This user account doesn\'t exists';
+            elseif($dbUser['status'] != 0)
+                $errors['other'] = 'This user account is already activated. <a href=' . url('user/login') . '>Log In</a>';
+
+            if(count($errors) > 0)
+                return $this->resendemail($formResult, $errors);
+
+            sendValidationEmail($dbUser);
+            $success = 'An E-mail has been resent to validate your registration';
+            return $this->resendemail(null, null, $success);
+        }
+
         public function resetPasswordEmail($username){
-            //send and email to the user corresponding with the id with a link to the reset password function
+            //send and email to the user corresponding with the username with a link to the reset password function
         }
 
         public function resetPassword($id, $activationKey){
@@ -58,14 +99,11 @@
                 return $this->login($formResult, $errors);
             
             $dbUser = $this->UserModel->getUserWithEmail($formResult['email']);
-            //var_dump($dbUser);
-            //return;
-
             if($dbUser == null)
                 $errors['other'] = 'This user account doesn\'t exists. <a href=' . url('user/signup') . '>Sign up</a>';
             elseif ($dbUser['status'] == 0) 
                 $errors['other'] = 'This user account is not active yet. <a href=' . url('user/resendemail') . '>Resend validation email</a>';
-            elseif (!password_verify($formResult['password'], $dbUser['passwd']))
+            elseif (!password_verify($formResult['password'], $dbUser['password']))
                 $errors['password'] = 'The password is incorrect';
 
             if(count($errors) > 0)
@@ -75,7 +113,7 @@
             $_SESSION['idUser'] = $dbUser['id'];
 
             if($formResult['remember'] == true){
-                $cookieValue = $dbUser['mail'] . '____' . $dbUser['activation_key'];
+                $cookieValue = $dbUser['email'] . '____' . $dbUser['activation_key'];
                 setcookie('rememberMe', $cookieValue, time() + 60 * 60 * 24 * 365); //set cookie for 1 year
             }
 

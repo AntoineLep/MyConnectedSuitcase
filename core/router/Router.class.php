@@ -94,12 +94,17 @@
         * @return (closure) Route callback function if known 
         */
         public static function run(){
+
             if(!isset(self::$routes[$_SERVER['REQUEST_METHOD']]))
                 throw new RouterException("Request method does not exist");
 
-            foreach (self::$routes[$_SERVER['REQUEST_METHOD']] as $route)
-                if($route->match(self::$url))
-                    return $route->call();
+            foreach (self::$routes[$_SERVER['REQUEST_METHOD']] as $route){
+                if($route->match(self::$url)){
+                    if($route->execMiddlewares())
+                        return $route->call();
+                    return;
+                }
+            }
 
             throw new RouterException("No matching route");
         }

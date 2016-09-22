@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 21, 2016 at 03:43 PM
+-- Generation Time: Sep 22, 2016 at 02:21 PM
 -- Server version: 5.7.11
 -- PHP Version: 5.6.19
 
@@ -130,9 +130,9 @@ INSERT INTO `trip` (`id`, `name`, `description`, `id_user`) VALUES
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
-  `login` varchar(200) NOT NULL,
-  `passwd` varchar(200) NOT NULL,
-  `mail` varchar(250) NOT NULL,
+  `username` varchar(200) NOT NULL,
+  `password` varchar(200) NOT NULL,
+  `email` varchar(250) NOT NULL,
   `registred_date` date NOT NULL,
   `activation_key` varchar(250) DEFAULT NULL,
   `image_folder` varchar(200) NOT NULL,
@@ -143,9 +143,9 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `login`, `passwd`, `mail`, `registred_date`, `activation_key`, `image_folder`, `status`) VALUES
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `registred_date`, `activation_key`, `image_folder`, `status`) VALUES
 (1, 'AntoineLep', '$2y$10$ZykoOqQ7hkgFhzkEaPxRE.22vgjFsbNQI59/OfRu.9KP3bXsGJMaK', 'leprevost.antoine@gmail.com', '2016-09-06', '325622335218f97f9b94c4705ea624bd', 'AntoineLep', 1),
-(2, 'test', 'test', 'test', '0000-00-00', NULL, '', 1);
+(6, 'AntoinelLep', '$2y$10$J4vCtR1v.8JNHeNTa0IlfeKYrb3hn/c10sAUM83VKEr28ipuc8cz6', 'leprevost.antoinel@gmail.com', '2016-09-22', 'fa4f647018dd1da3536d1ec95296429e', '25347784939fe92c27d9fe4277b94373', 1);
 
 --
 -- Indexes for dumped tables
@@ -184,7 +184,8 @@ ALTER TABLE `trip`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `mail` (`mail`);
+  ADD UNIQUE KEY `mail` (`email`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -214,7 +215,7 @@ ALTER TABLE `trip`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- Constraints for dumped tables
 --

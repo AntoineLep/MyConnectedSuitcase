@@ -16,7 +16,7 @@
                     <a class="navbar-brand" href=<?php echo url('/'); ?>><?php echo PROGRAM_TITLE; ?></a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
-                    <?php if(!user_is_connected()) { ?>
+                    <?php if(!userIsConnected()) { ?>
                         <li>
                             <a href=<?php echo url('/user/login') ?>><i class="fa fa-sign-in fa-fw"></i> Log in</a>
                         </li>

@@ -4,6 +4,7 @@
     define('PROGRAM_TITLE','My Connected Suitcase');
     define('VERSION','0.1 alpha');
     define('AUTHOR','Antoine Leprevost');
+    define('EMAIL_BASE', '@antlab.fr');
     define('PROTOCOL', isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http');
     define('BASE_URL', PROTOCOL . '://' . $_SERVER['SERVER_NAME'] . '/' . 'MyConnectedSuitcase');
 
@@ -17,6 +18,7 @@
     define('CLASS_FOLDER', APP_FOLDER . DS . 'class');
     define('CONTROLLER_FOLDER', APP_FOLDER . DS . 'controller');
     define('MODEL_FOLDER', APP_FOLDER . DS . 'model');
+    define('MIDDLEWARE_FOLDER', APP_FOLDER . DS . 'middleware');
     define('VIEW_FOLDER', APP_FOLDER . DS. 'view');
     define('ASSETS_FOLDER', APP_FOLDER . DS . 'assets');
 

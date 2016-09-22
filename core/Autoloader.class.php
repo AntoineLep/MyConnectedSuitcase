@@ -11,6 +11,7 @@
             spl_autoload_register(array(__CLASS__, 'autoloadClass'));
             spl_autoload_register(array(__CLASS__, 'autoloadController'));
             spl_autoload_register(array(__CLASS__, 'autoloadModel'));
+            spl_autoload_register(array(__CLASS__, 'autoloadMiddleware'));
         }
 
         /**
@@ -33,7 +34,7 @@
 
         /**
         * Auto loader for controller files
-        * @param (string) $class : Class name. Must be in class folder with '.class.php' or '.php' file extension
+        * @param (string) $class : Class name. Must be in controller folder with '.class.php' or '.php' file extension
         * @return (bool) true if the file can be found, false otherwise
         */
         static function autoloadController($class){
@@ -42,11 +43,20 @@
 
         /**
         * Auto loader for model files
-        * @param (string) $class : Class name. Must be in class folder with '.class.php' or '.php' file extension
+        * @param (string) $class : Class name. Must be in class model with '.class.php' or '.php' file extension
         * @return (bool) true if the file can be found, false otherwise
         */
         static function autoloadModel($class){
             return self::recursiveLoad(MODEL_FOLDER, $class);
+        }
+
+        /**
+        * Auto loader for middleware files
+        * @param (string) $class : Class name. Must be in middleware folder with '.class.php' or '.php' file extension
+        * @return (bool) true if the file can be found, false otherwise
+        */
+        static function autoloadMiddleware($class){
+            return self::recursiveLoad(MIDDLEWARE_FOLDER, $class);
         }
 
         /**

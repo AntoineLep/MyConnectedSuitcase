@@ -21,6 +21,11 @@
         */
         private $params = array();
 
+        /**
+        * (array) Middlewares to be executed before the route is called
+        */
+        private $middlewares = array();
+
         public function __construct($path, $callable){
             $this->path = trim($path, '/');
             $this->callable = $callable;
@@ -28,13 +33,41 @@
 
         /**
         * Allow to apply a filter on a param
-        * @param (string) param : param to apply the filter
-        * @param (string) regex : regex the param have to match with
+        * @param (string) param : Param to apply the filter
+        * @param (string) regex : Regex the param have to match with
         * @return (Route) this For fluence purposes
         */
         public function with($param, $regex){
             $this->params[$param] = str_replace('(', '(?:', $regex);
             return $this;
+        }
+
+        /**
+        * Add a middleware to be executed before the route is called
+        * @param (string) middlewareName : Name of the middleware
+        * @param (array) args : Associative array of arguments to be passed to the middleware
+        * @return (Route) this For fluence purposes 
+        */
+        public function middleware($middlewareName, $args = null){
+            $middlewareName .= 'Middleware';
+            $this->middlewares[] = ['middlewareClass' => new $middlewareName(), 'args' => $args];
+            return $this;
+        }
+
+        /**
+        * Execute all middleware handle function
+        * @return (bool) true if all middlewares execute successfully, false otherwise 
+        */
+        public function execMiddlewares(){
+            foreach ($this->middlewares as $middleware){
+                if($middleware['middlewareClass']->handle($middleware['args']) == false){
+                    $middleware['middlewareClass']->onError($middleware['args']);
+                    return false;
+                }
+                $middleware['middlewareClass']->onSuccess($middleware['args']);
+            }
+
+            return true;
         }
 
         /**
@@ -45,6 +78,7 @@
         public function match($url){
             $url = trim($url, '/');
             $path = preg_replace_callback('#:([\w]+)#', [$this, 'paramMatch'], $this->path);
+            $path = str_replace('/', '\/', $path);
 
             if(!preg_match('#^' . $path . '$#i', $url, $matches))
                 return false;

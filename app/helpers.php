@@ -90,7 +90,7 @@
     * Tells if the user is connected or not
     * @return (bool) True if the user is connected, false otherwise
     */
-    function user_is_connected(){
+    function userIsConnected(){
         return isset($_SESSION['idUser']);
     }
 
@@ -103,8 +103,6 @@
             if(count($expl) == 2){
                 $email = $expl[0];
                 $cryptedKey = $expl[1];
-                var_dump($email);
-                var_dump($cryptedKey);
                 $userModel = new UserModel();
                 $dbUser = $userModel->getUserWithEmail($email);
 
@@ -113,6 +111,19 @@
                         $_SESSION['idUser'] = $dbUser['id'];
             }
         }
+    }
+
+    function sendValidationEmail($user){
+        $to = $user['email'];
+        $subject = PROGRAM_TITLE . ' - Activate your account';
+        $message = 'hello,\n
+                    Thank you for your interest to ' . PROGRAM_TITLE . '!\n
+                    Before you can fully take advantage of your account, you need to activate it.\n
+                    Please follow this link: ' . cleanUrl('user/activate/' . $user['id'] . '/' . $user['activation_key']);
+        $headers = 'From: noreply' . EMAIL_BASE . "\r\n" .
+                   'X-Mailer: PHP/' . phpversion();
+
+        return mail($to, $subject, $message, $headers);
     }
 
     function resizeImg($Wmax, $Hmax, $rep_Dst, $img_Dst, $rep_Src, $img_Src){
