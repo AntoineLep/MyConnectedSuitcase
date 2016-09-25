@@ -33,6 +33,7 @@
                             <input class="form-control" placeholder="Password" name="password" type="password" value="">
                             <?php echo $helpBlock; ?>
                         </div>
+                        <span><a href=<?php echo url('user/forgotpassword'); ?>>Forgot your password ?</a>
                         <div class="checkbox">
                             <label>
                                 <input name="remember" type="checkbox" value="Remember Me"> Remember Me

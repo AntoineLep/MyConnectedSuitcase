@@ -24,7 +24,7 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
-                        <a href=<?php echo url('/trip') ?>><i class="fa fa-globe fa-fw"></i> My trips</a>
+                        <a href=<?php echo url('/trip') ?>><i class="fa fa-globe fa-fw"></i> Administration</a>
                     </li>
                     <li>
                         <a href=<?php echo url('/user/logout') ?>><i class="fa fa-sign-out fa-fw"></i> Log out</a>

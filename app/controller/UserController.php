@@ -29,15 +29,15 @@
             if($dbUser != null){
                 if($dbUser['activation_key'] == $activationKey){
                     $this->UserModel->activateUserWithId($id);
-                    $success = 'Your account is now activated! <a href=' . url('/trip') . '>Create your first trip</a>';
-                    $_SESSION['idUser'] = $dbUser['id'];
+                    $this->UserModel->regenerateActivationKey($id);
+                    $success = 'Your account is now activated! <a href=' . url('/user/login') . '>Log in</a>';
                     $this->loadView('user/activation', compact('success'));
                     $this->render();
                     return;
                 }
             }
 
-            $error = 'An error occured when trying to activate your account. Please contact an administrator...';
+            $error = 'An error occured when trying to activate your account. Please contact an administrator.';
             $this->loadView('user/activation', compact('error'));
             $this->render();
             return;
@@ -67,17 +67,112 @@
             if(count($errors) > 0)
                 return $this->resendemail($formResult, $errors);
 
-            sendValidationEmail($dbUser);
-            $success = 'An E-mail has been resent to validate your registration';
-            return $this->resendemail(null, null, $success);
+            if(sendValidationEmail($dbUser)){
+                $success = 'An E-mail has been resent to validate your registration';
+                return $this->resendemail(null, null, $success);
+            }
+
+            $errors['other'] = 'An error occurs when sending the validation E-mail, please contact an administrator';
+            return $this->resendemail($formResult, $errors);
         }
 
-        public function resetPasswordEmail($username){
-            //send and email to the user corresponding with the username with a link to the reset password function
+        public function forgotPassword($user = null, $errors = null, $success = null){
+            $this->template = 'default';
+            $this->loadView('user/forgotpassword', compact('user', 'errors', 'success'));
+            $this->render();
+        }
+
+        public function doForgotPassword(){
+            $formResult = ['email' => (isset($_POST['email']) && !empty(trim($_POST['email']))) ? $_POST['email'] : '',
+                           'username' => (isset($_POST['username']) && !empty(trim($_POST['username']))) ? $_POST['username'] : ''];
+
+            $errors = [];
+
+            //email
+            if($formResult['email'] == '')
+                $errors['email'] = 'E-mail required';
+
+            //username
+            if($formResult['username'] == '')
+                $errors['username'] = 'Username required';
+
+            $dbUser = $this->UserModel->getUserWithEmailAndUsername($formResult);
+            if($dbUser == null)
+                $errors['other'] = 'This user account doesn\'t exists';
+
+            if(count($errors) > 0)
+                return $this->forgotPassword($formResult, $errors);
+
+            if(sendForgottenPasswordEmail($dbUser)){
+                $success = 'An E-mail has been to reset your password';
+                return $this->forgotPassword(null, null, $success);
+            }
+
+            $errors['other'] = 'An error occurs when sending the E-mail to reset your password, please contact an administrator';
+            return $this->forgotPassword($formResult, $errors);
         }
 
         public function resetPassword($id, $activationKey){
-            //display a form to reset the password and then create a new activation key (in order to make previous link unactive)
+            $this->template = 'default';
+            $dbUser = $this->UserModel->getUserById($id);
+            if($dbUser != null){
+                if($dbUser['activation_key'] == $activationKey){
+                    return $this->displayResetPasswordForm($dbUser);
+                }
+            }
+
+            $errors['other'] = 'An error occured. Please contact an administrator.';
+            return $this->displayResetPasswordForm(null, $errors);
+        }
+
+        private function displayResetPasswordForm($user = null, $errors = null, $success = null){
+            $this->template = 'default';
+            $this->loadView('user/resetpassword', compact('user', 'errors', 'success'));
+            $this->render();
+        }
+
+        public function doResetPassword(){
+            $formResult = ['activation_key' => (isset($_POST['token_act']) && !empty(trim($_POST['token_act']))) ? $_POST['token_act'] : '',
+                           'id' => (isset($_POST['token_id']) && !empty(trim($_POST['token_id']))) ? $_POST['token_id'] : ''];
+
+            $errors = [];
+
+            if($formResult['activation_key'] == '' || $formResult['id'] == ''){
+                $errors['other'] = 'An error occured, please contact an administrator.';
+                return $this->displayResetPasswordForm(null, $errors);
+            }
+
+            $formResult['password1'] = (isset($_POST['password1']) && !empty(trim($_POST['password1']))) ? $_POST['password1'] : '';
+            $formResult['password2'] = (isset($_POST['password2']) && !empty(trim($_POST['password2']))) ? $_POST['password2'] : '';
+
+            if($formResult['password1'] == '')
+                $errors['password1'] = 'Password is required an cannot be empty';
+
+            if($formResult['password2'] == '')
+                $errors['password2'] = 'Password confirmation is required an cannot be empty';
+
+            if(count($errors) > 0){
+                unset($formResult['password1']);
+                unset($formResult['password2']);
+                return $this->displayResetPasswordForm($formResult, $errors);
+            }
+
+            if($formResult['password1'] != $formResult['password2'])
+                $errors['password2'] = 'Password confirmation is different from password';
+
+            if(count($errors) > 0){
+                unset($formResult['password1']);
+                unset($formResult['password2']);
+                return $this->displayResetPasswordForm($formResult, $errors);
+            }         
+            
+            $this->UserModel->updatePasswordWithIdAndToken($formResult);
+
+            session_destroy();
+            unset($_COOKIE['rememberMe']);
+
+            $success = 'You password has been changed! <a href=' . url('user/login') . '>Log In</a>';
+            return $this->displayResetPasswordForm(null, null, $success);
         }
 
         public function doLogin(){
@@ -104,7 +199,7 @@
             elseif ($dbUser['status'] == 0) 
                 $errors['other'] = 'This user account is not active yet. <a href=' . url('user/resendemail') . '>Resend validation email</a>';
             elseif (!password_verify($formResult['password'], $dbUser['password']))
-                $errors['password'] = 'The password is incorrect';
+                $errors['password'] = 'The password is incorrect. <a href=' . url('user/forgotpassword') . '>Forgot your password ?</a>';
 
             if(count($errors) > 0)
                 return $this->login($formResult, $errors);
@@ -147,7 +242,7 @@
             if($formResult['password2'] == '')
                 $errors['password2'] = 'Password confirmation required';
 
-            //password 2
+            //password 1 & pasword 2
             if($formResult['password1'] != $formResult['password2'])
                 $errors['password2'] = 'Password confirmation is different from password';
 

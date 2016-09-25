@@ -2,7 +2,7 @@
     <div class="col-md-4 col-md-offset-4">
         <div class="login-panel panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Resend validation E-mail</h3>
+                <h3 class="panel-title">Forgot your password ?</h3>
             </div>
             <div class="panel-body">
                 <?php 
@@ -19,7 +19,7 @@
                                 <?php echo '<strong>Error:</strong> ' . $errors['other']; ?>
                             </div>
                 <?php } ?>
-                <form role="form" method="post" action=<?php echo url('user/resendemail'); ?>>
+                <form role="form" method="post" action=<?php echo url('user/forgotpassword'); ?>>
                     <fieldset>
                         <?php
                             $emailValueField = isset($user['email']) ? 'value="' . $user['email'] . '"' : '';
@@ -31,7 +31,18 @@
                             <input class="form-control" placeholder="E-mail" name="email" type="email" <?php echo $emailValueField; ?>>
                             <?php echo $helpBlock; ?>
                         </div>
-                        <input class="btn btn-lg btn-success btn-block" type="submit" value="Resend E-mail" />
+
+                        <?php
+                            $usernameValueField = isset($user['username']) ? 'value="' . $user['username'] . '"' : '';
+                            $errorClass = (isset($errors['username'])) ? ' has-error has-feedback' : '';
+                            $formGroupClass = '"form-group' . $errorClass . '"';
+                            $helpBlock = (isset($errors['username'])) ? '<span class="help-block">' . $errors['username'] . '</span>' : '';
+                        ?>
+                        <div class=<?php echo $formGroupClass; ?>>
+                            <input class="form-control" placeholder="Username" name="username" type="text" <?php echo $usernameValueField; ?>>
+                            <?php echo $helpBlock; ?>
+                        </div>
+                        <input class="btn btn-lg btn-success btn-block" type="submit" value="Send password reset instructions" />
                     </fieldset>
                 </form>
                 <?php } ?>

@@ -29,7 +29,7 @@ USE `mcs`;
 -- Table structure for table `destination`
 --
 
-CREATE TABLE `destination` (
+CREATE TABLE `mcs_destination` (
   `id` int(10) NOT NULL,
   `name` varchar(200) NOT NULL,
   `lat` varchar(30) NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE `destination` (
 -- Dumping data for table `destination`
 --
 
-INSERT INTO `destination` (`id`, `name`, `lat`, `lng`, `description`, `startDate`, `endDate`, `id_transportation_type`, `id_trip`) VALUES
+INSERT INTO `mcs_destination` (`id`, `name`, `lat`, `lng`, `description`, `startDate`, `endDate`, `id_transportation_type`, `id_trip`) VALUES
 (1, 'Toulouse', '43.5937874', '1.4260094999999637', 'The pink city', '2016-08-26', '2016-08-31', 1, 2),
 (2, 'Paris', '48.8606166', '2.312775399999964', 'City of lights', '2016-09-01', '2016-09-03', 2, 2),
 (3, 'house', '43.61115840000001', '1.4211725000000115', 'The house', '2016-01-04', NULL, 2, 2);
@@ -56,7 +56,7 @@ INSERT INTO `destination` (`id`, `name`, `lat`, `lng`, `description`, `startDate
 -- Table structure for table `image`
 --
 
-CREATE TABLE `image` (
+CREATE TABLE `mcs_image` (
   `id` int(10) NOT NULL,
   `caption` varchar(200) DEFAULT NULL,
   `filename` varchar(250) NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE `image` (
 -- Dumping data for table `image`
 --
 
-INSERT INTO `image` (`id`, `caption`, `filename`, `description`, `id_destination`) VALUES
+INSERT INTO `mcs_image` (`id`, `caption`, `filename`, `description`, `id_destination`) VALUES
 (1, 'fishing pont neuf', '1b730a3ea99908aca1fc0edad029e434f349c59714e848183601b72a05b4e1b5.jpg', '', 1),
 (2, 'fishing canal du midi', 'd2d95580bcf1be0cbabe1468887b83067a1ed17816d00f22cec0d6f5d34747f7.jpg', '', 1),
 (3, 'Paris best site seing', '7a49c6e68f2de8c1912c79856428f14d80ed8f3ad8ef8fc3d8eed4b0241122b2.png', 'This is a described fake :)', 2);
@@ -79,7 +79,7 @@ INSERT INTO `image` (`id`, `caption`, `filename`, `description`, `id_destination
 -- Table structure for table `transportation_type`
 --
 
-CREATE TABLE `transportation_type` (
+CREATE TABLE `mcs_transportation_type` (
   `id` int(10) NOT NULL,
   `name` varchar(200) NOT NULL,
   `img_folder` varchar(200) NOT NULL,
@@ -91,7 +91,7 @@ CREATE TABLE `transportation_type` (
 -- Dumping data for table `transportation_type`
 --
 
-INSERT INTO `transportation_type` (`id`, `name`, `img_folder`, `img_prefix`, `img_extension`) VALUES
+INSERT INTO `mcs_transportation_type` (`id`, `name`, `img_folder`, `img_prefix`, `img_extension`) VALUES
 (1, 'Unspecified', '', '', ''),
 (2, 'Car', '', '', ''),
 (3, 'Plane', '', '', ''),
@@ -107,7 +107,7 @@ INSERT INTO `transportation_type` (`id`, `name`, `img_folder`, `img_prefix`, `im
 -- Table structure for table `trip`
 --
 
-CREATE TABLE `trip` (
+CREATE TABLE `mcs_trip` (
   `id` int(100) NOT NULL,
   `name` varchar(200) NOT NULL,
   `description` text,
@@ -118,7 +118,7 @@ CREATE TABLE `trip` (
 -- Dumping data for table `trip`
 --
 
-INSERT INTO `trip` (`id`, `name`, `description`, `id_user`) VALUES
+INSERT INTO `mcs_trip` (`id`, `name`, `description`, `id_user`) VALUES
 (2, 'Euro Tour', 'Europe tour with interrail pass', 1),
 (3, 'Last trip', 'My last trip', 1);
 
@@ -128,7 +128,7 @@ INSERT INTO `trip` (`id`, `name`, `description`, `id_user`) VALUES
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE `mcs_user` (
   `id` int(11) NOT NULL,
   `username` varchar(200) NOT NULL,
   `password` varchar(200) NOT NULL,
@@ -143,7 +143,7 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `registred_date`, `activation_key`, `image_folder`, `status`) VALUES
+INSERT INTO `mcs_user` (`id`, `username`, `password`, `email`, `registred_date`, `activation_key`, `image_folder`, `status`) VALUES
 (1, 'AntoineLep', '$2y$10$ZykoOqQ7hkgFhzkEaPxRE.22vgjFsbNQI59/OfRu.9KP3bXsGJMaK', 'leprevost.antoine@gmail.com', '2016-09-06', '325622335218f97f9b94c4705ea624bd', 'AntoineLep', 1),
 (6, 'AntoinelLep', '$2y$10$J4vCtR1v.8JNHeNTa0IlfeKYrb3hn/c10sAUM83VKEr28ipuc8cz6', 'leprevost.antoinel@gmail.com', '2016-09-22', 'fa4f647018dd1da3536d1ec95296429e', '25347784939fe92c27d9fe4277b94373', 1);
 
@@ -154,7 +154,7 @@ INSERT INTO `user` (`id`, `username`, `password`, `email`, `registred_date`, `ac
 --
 -- Indexes for table `destination`
 --
-ALTER TABLE `destination`
+ALTER TABLE `mcs_destination`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_transportation_type` (`id_transportation_type`),
   ADD KEY `id_trip` (`id_trip`);
@@ -162,27 +162,27 @@ ALTER TABLE `destination`
 --
 -- Indexes for table `image`
 --
-ALTER TABLE `image`
+ALTER TABLE `mcs_image`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_destination` (`id_destination`);
 
 --
 -- Indexes for table `transportation_type`
 --
-ALTER TABLE `transportation_type`
+ALTER TABLE `mcs_transportation_type`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `trip`
 --
-ALTER TABLE `trip`
+ALTER TABLE `mcs_trip`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_user` (`id_user`);
 
 --
 -- Indexes for table `user`
 --
-ALTER TABLE `user`
+ALTER TABLE `mcs_user`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `mail` (`email`),
   ADD UNIQUE KEY `username` (`username`);
@@ -194,27 +194,27 @@ ALTER TABLE `user`
 --
 -- AUTO_INCREMENT for table `destination`
 --
-ALTER TABLE `destination`
+ALTER TABLE `mcs_destination`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `image`
 --
-ALTER TABLE `image`
+ALTER TABLE `mcs_image`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `transportation_type`
 --
-ALTER TABLE `transportation_type`
+ALTER TABLE `mcs_transportation_type`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `trip`
 --
-ALTER TABLE `trip`
+ALTER TABLE `mcs_trip`
   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `user`
 --
-ALTER TABLE `user`
+ALTER TABLE `mcs_user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- Constraints for dumped tables
@@ -223,21 +223,21 @@ ALTER TABLE `user`
 --
 -- Constraints for table `destination`
 --
-ALTER TABLE `destination`
-  ADD CONSTRAINT `destination_ibfk_1` FOREIGN KEY (`id_transportation_type`) REFERENCES `transportation_type` (`id`),
-  ADD CONSTRAINT `destination_ibfk_2` FOREIGN KEY (`id_trip`) REFERENCES `trip` (`id`) ON DELETE CASCADE;
+ALTER TABLE `mcs_destination`
+  ADD CONSTRAINT `mcs_destination_ibfk_1` FOREIGN KEY (`id_transportation_type`) REFERENCES `mcs_transportation_type` (`id`),
+  ADD CONSTRAINT `mcs_destination_ibfk_2` FOREIGN KEY (`id_trip`) REFERENCES `mcs_trip` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `image`
 --
-ALTER TABLE `image`
-  ADD CONSTRAINT `image_ibfk_1` FOREIGN KEY (`id_destination`) REFERENCES `destination` (`id`) ON DELETE CASCADE;
+ALTER TABLE `mcs_image`
+  ADD CONSTRAINT `mcs_image_ibfk_1` FOREIGN KEY (`id_destination`) REFERENCES `mcs_destination` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `trip`
 --
-ALTER TABLE `trip`
-  ADD CONSTRAINT `trip_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+ALTER TABLE `mcs_trip`
+  ADD CONSTRAINT `mcs_trip_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `mcs_user` (`id`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

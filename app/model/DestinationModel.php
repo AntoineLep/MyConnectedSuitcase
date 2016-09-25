@@ -12,15 +12,15 @@
 
         public function isUserValid($idDestination = -1){
             if($idDestination == -1){
-                $sth = $this->db->prepare('SELECT count(id) as num_rows FROM user WHERE id = :idUser');
+                $sth = $this->db->prepare('SELECT count(id) as num_rows FROM mcs_user WHERE id = :idUser');
                 $sth->execute([':idUser' => $this->idUser]);
                 return $sth->fetchAll()[0]['num_rows'] == 1;
             }
             else {
-                $sth = $this->db->prepare('SELECT count(destination.id) as num_rows 
-                                            FROM destination 
-                                            JOIN trip ON destination.id_trip = trip.id 
-                                            WHERE destination.id = :id AND id_user = :idUser');
+                $sth = $this->db->prepare('SELECT count(mcs_destination.id) as num_rows 
+                                            FROM mcs_destination 
+                                            JOIN mcs_trip ON mcs_destination.id_trip = mcs_trip.id 
+                                            WHERE mcs_destination.id = :id AND id_user = :idUser');
                 $sth->execute([':id' => $idDestination, ':idUser' => $this->idUser]);
                 return $sth->fetchAll()[0]['num_rows'] == 1;
             }
@@ -29,16 +29,16 @@
         public function getAllUserDestinations(){
             if(!$this->isUserValid())
                 return [];
-            $sth = $this->db->prepare('SELECT * FROM destination WHERE id_trip IN (SELECT id FROM trip where id_user = :idUser)');
+            $sth = $this->db->prepare('SELECT * FROM mcs_destination WHERE id_trip IN (SELECT id FROM mcs_trip where id_user = :idUser)');
             $sth->execute([':idUser' => $this->idUser]);
             return $sth->fetchAll();
         }
 
         public function getDestinationIdAndRelatedImageNumber(){
             return $this->db->query('SELECT id_destination, count(*) AS num_rows 
-                                        FROM image 
+                                        FROM mcs_image 
                                         WHERE id_destination IN 
-                                            (SELECT id FROM destination) 
+                                            (SELECT id FROM mcs_destination) 
                                         GROUP BY id_destination'
                                     )->fetchAll();
         }
@@ -46,7 +46,7 @@
         public function getDestinationById($id){
             if(!$this->isUserValid($id))
                 return null;
-            $sth = $this->db->prepare('SELECT * FROM destination WHERE id = :id');
+            $sth = $this->db->prepare('SELECT * FROM mcs_destination WHERE id = :id');
             $sth->execute([':id' => $id]);
             $result = $sth->fetchAll();
             
@@ -65,7 +65,7 @@
             foreach ($imagesInDestination as $image)
                 $imageModel->deleteImageById($image['id']);
 
-            $sth = $this->db->prepare('DELETE FROM destination WHERE id = :id');
+            $sth = $this->db->prepare('DELETE FROM mcs_destination WHERE id = :id');
             $sth->execute([':id' => $id]);
             return true;
         }
@@ -80,14 +80,14 @@
                     return false;
 
                 unset($destination['id']);
-                $sth = $this->db->prepare('INSERT INTO destination (name, lat, lng, description, startDate, endDate, id_transportation_type, id_trip) 
+                $sth = $this->db->prepare('INSERT INTO mcs_destination (name, lat, lng, description, startDate, endDate, id_transportation_type, id_trip) 
                                             VALUES(:name, :lat, :lng, :description, :startDate, :endDate, :transportationType, :id_trip)');
                 $sth->execute($destination);
                 return $this->db->lastInsertID();
             }
             else {
                 unset($destination['id_trip']);
-                $sth = $this->db->prepare('UPDATE destination 
+                $sth = $this->db->prepare('UPDATE mcs_destination 
                                             SET name = :name, lat = :lat, lng = :lng, description = :description, startDate = :startDate, endDate = :endDate, id_transportation_type = :transportationType
                                             WHERE id = :id');
                 $sth->execute($destination);

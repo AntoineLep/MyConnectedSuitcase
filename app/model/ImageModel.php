@@ -11,15 +11,15 @@
 
         public function isUserValid($idImage = -1){
             if($idImage == -1){
-                $sth = $this->db->prepare('SELECT count(id) as num_rows FROM user WHERE id = :idUser');
+                $sth = $this->db->prepare('SELECT count(id) as num_rows FROM mcs_user WHERE id = :idUser');
                 $sth->execute([':idUser' => $this->idUser]);
                 return $sth->fetchAll()[0]['num_rows'] == 1;
             }
             else {
-                $sth = $this->db->prepare('SELECT count(image.id) as num_rows FROM image 
-                                            JOIN destination ON image.id_destination = destination.id 
-                                            JOIN trip ON destination.id_trip = trip.id 
-                                            WHERE image.id = :id AND id_user = :idUser');
+                $sth = $this->db->prepare('SELECT count(mcs_image.id) as num_rows FROM mcs_image 
+                                            JOIN mcs_destination ON mcs_image.id_destination = mcs_destination.id 
+                                            JOIN mcs_trip ON mcs_destination.id_trip = mcs_trip.id 
+                                            WHERE mcs_image.id = :id AND id_user = :idUser');
                 $sth->execute([':id' => $idImage, ':idUser' => $this->idUser]);
                 return $sth->fetchAll()[0]['num_rows'] == 1;
             }
@@ -28,7 +28,7 @@
         public function getImageByDestinationId($idDestination){
             $destinationModel = new DestinationModel();
             if($destinationModel->isUserValid($idDestination)){
-                $sth = $this->db->prepare('SELECT * FROM image WHERE id_destination = :idDestination');
+                $sth = $this->db->prepare('SELECT * FROM mcs_image WHERE id_destination = :idDestination');
                 $sth->execute([':idDestination' => $idDestination]);
                 return $sth->fetchAll();
             }
@@ -39,7 +39,7 @@
        public function getImageById($id){
             if(!$this->isUserValid($id))
                 return null;
-            $sth = $this->db->prepare('SELECT * FROM image WHERE id = :id');
+            $sth = $this->db->prepare('SELECT * FROM mcs_image WHERE id = :id');
             $sth->execute([':id' => $id]);
             $result = $sth->fetchAll();
 
@@ -71,7 +71,7 @@
                 unset($image['id']);
                 unset($image['filedir']);
 
-                $sth = $this->db->prepare('INSERT INTO image (caption, filename, description, id_destination) 
+                $sth = $this->db->prepare('INSERT INTO mcs_image (caption, filename, description, id_destination) 
                                             VALUES(:caption, :filename, :description, :id_destination)');
                 $sth->execute($image);
                 return $this->db->lastInsertID();
@@ -81,7 +81,7 @@
                 if($image['filename'] == ''){
                     unset($image['filename']);
                     unset($image['filedir']);
-                    $sth = $this->db->prepare('UPDATE image 
+                    $sth = $this->db->prepare('UPDATE mcs_image 
                                                 SET caption = :caption, description = :description
                                                 WHERE id = :id');
                 }
@@ -106,7 +106,7 @@
                     }
 
                     unset($image['filedir']);
-                    $sth = $this->db->prepare('UPDATE image 
+                    $sth = $this->db->prepare('UPDATE mcs_image 
                                                 SET caption = :caption, description = :description, filename = :filename
                                                 WHERE id = :id');
                 }
@@ -122,7 +122,7 @@
                 return false;
 
             $img = $this->getImageById($id);
-            $sth = $this->db->prepare('DELETE FROM image WHERE id = :id');
+            $sth = $this->db->prepare('DELETE FROM mcs_image WHERE id = :id');
             $sth->execute([':id' => $id]);
 
             if($img != null){
@@ -139,10 +139,10 @@
 
         //This function is called without user verification in it. It have to be done in the calling function
         public function getImagesWithTripId($tripId){
-            $sth = $this->db->prepare('SELECT image.id FROM image 
-                                        JOIN destination ON image.id_destination = destination.id
-                                        JOIN trip ON destination.id_trip = trip.id
-                                        WHERE trip.id = :tripId');
+            $sth = $this->db->prepare('SELECT mcs_image.id FROM mcs_image 
+                                        JOIN mcs_destination ON mcs_image.id_destination = mcs_destination.id
+                                        JOIN mcs_trip ON mcs_destination.id_trip = mcs_trip.id
+                                        WHERE mcs_trip.id = :tripId');
             $sth->execute([':tripId' => $tripId]);
             $result = $sth->fetchAll();
 
@@ -153,9 +153,9 @@
 
         //This function is called without user verification in it. It have to be done in the calling function
         public function getImagesWithDestinationId($destinationId){
-            $sth = $this->db->prepare('SELECT image.id FROM image 
-                                        JOIN destination ON image.id_destination = destination.id
-                                        WHERE destination.id = :destinationId');
+            $sth = $this->db->prepare('SELECT mcs_image.id FROM mcs_image 
+                                        JOIN mcs_destination ON mcs_image.id_destination = mcs_destination.id
+                                        WHERE mcs_destination.id = :destinationId');
             $sth->execute([':destinationId' => $destinationId]);
             $result = $sth->fetchAll();
             

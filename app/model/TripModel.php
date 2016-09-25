@@ -11,12 +11,12 @@
 
         public function isUserValid($idTrip = -1){
             if($idTrip == -1){
-                $sth = $this->db->prepare('SELECT count(id) as num_rows FROM user WHERE id = :idUser');
+                $sth = $this->db->prepare('SELECT count(id) as num_rows FROM mcs_user WHERE id = :idUser');
                 $sth->execute([':idUser' => $this->idUser]);
                 return $sth->fetchAll()[0]['num_rows'] == 1;
             }
             else {
-                $sth = $this->db->prepare('SELECT count(id) as num_rows FROM trip WHERE id = :id AND id_user = :idUser');
+                $sth = $this->db->prepare('SELECT count(id) as num_rows FROM mcs_trip WHERE id = :id AND id_user = :idUser');
                 $sth->execute([':id' => $idTrip, ':idUser' => $this->idUser]);
                 return $sth->fetchAll()[0]['num_rows'] == 1;
             }
@@ -25,7 +25,7 @@
         public function getAllTrips(){
             if(!$this->isUserValid())
                 return [];
-            $sth = $this->db->prepare('SELECT * FROM trip WHERE id_user = :idUser');
+            $sth = $this->db->prepare('SELECT * FROM mcs_trip WHERE id_user = :idUser');
             $sth->execute([':idUser' => $this->idUser]);
             return $sth->fetchAll();
         }
@@ -33,7 +33,7 @@
         public function getTripById($id){
             if(!$this->isUserValid($id))
                 return null;
-            $sth = $this->db->prepare('SELECT * FROM trip WHERE id = :id AND id_user = :idUser');
+            $sth = $this->db->prepare('SELECT * FROM mcs_trip WHERE id = :id AND id_user = :idUser');
             $sth->execute([':id' => $id, ':idUser' => $this->idUser]);
             $result = $sth->fetchAll();
 
@@ -51,13 +51,13 @@
 
             if($trip['id'] == -1){
                 unset($trip['id']);
-                $sth = $this->db->prepare('INSERT INTO trip (name, description, id_user) 
+                $sth = $this->db->prepare('INSERT INTO mcs_trip (name, description, id_user) 
                                             VALUES(:name, :description, :idUser)');
                 $sth->execute($trip);
                 return $this->db->lastInsertID();
             }
             else {
-                $sth = $this->db->prepare('UPDATE trip 
+                $sth = $this->db->prepare('UPDATE mcs_trip 
                                             SET name = :name, description = :description
                                             WHERE id = :id AND id_user = :idUser');
                 $sth->execute($trip);
@@ -75,7 +75,7 @@
             foreach ($imagesInTrip as $image)
                 $imageModel->deleteImageById($image['id']);
 
-            $sth = $this->db->prepare('DELETE FROM trip WHERE id = :id AND id_user = :idUser');
+            $sth = $this->db->prepare('DELETE FROM mcs_trip WHERE id = :id AND id_user = :idUser');
             $sth->execute([':id' => $id, ':idUser' => $this->idUser]);
 
             return true;
