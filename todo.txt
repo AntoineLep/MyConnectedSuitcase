@@ -8,7 +8,7 @@ verify that the email is sent by deploying the application on the server
 
 Lowprio:
 --------
+When a user connect for the first time to the application, a popover appears to ask him for a short functionnality overview
 when doing a render, give a a parameter the page title (to be displayed in <head><title></title></head>)
-Check the user is connected in every constructors of administration pages. IF he's  not, then redirect him to the login page
 Create a token when a user is connected. Use this token to validate a form has been sent by a specific user
 Create a link to destination info when displaying the destination name in trip list (to avoid clicking the button)

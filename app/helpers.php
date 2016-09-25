@@ -121,12 +121,12 @@
     function sendValidationEmail($user){
         $to = $user['email'];
         $subject = PROGRAM_TITLE . ' - Activate your account';
-        $message = 'Hello,\n
-                    Thank you for your interest to ' . PROGRAM_TITLE . '!\n
-                    Before you can fully take advantage of your account, you need to activate it.\n
-                    Please follow this link: ' . cleanUrl('user/activate/' . $user['id'] . '/' . $user['activation_key']) . '\n\n
-                    Best regards,\n
-                    ' . PROGRAM_TITLE . ' Team. \n';
+        $message = 'Hello,
+                    Thank you for your interest to ' . PROGRAM_TITLE . '!
+                    Before you can fully take advantage of your account, you need to activate it.
+                    Please follow this link: ' . cleanUrl('user/activate/' . $user['id'] . '/' . $user['activation_key']) . '
+                    Best regards,
+                    ' . PROGRAM_TITLE . ' Team.';
         $headers = 'From: noreply' . EMAIL_BASE . "\r\n" .
                    'X-Mailer: PHP/' . phpversion();
 
@@ -141,12 +141,12 @@
     function sendForgottenPasswordEmail($user){
         $to = $user['email'];
         $subject = PROGRAM_TITLE . ' - Forgot your password ?';
-        $message = 'Hello,\n
-                    It looks like your forgot your password!\n
-                    If you are not at the origin of this request please ignore this E-mail.\n
-                    If you asked for a password reset, please follow this link: ' . cleanUrl('user/resetpassword/' . $user['id'] . '/' . $user['activation_key']) . '\n\n
-                    Best regards,\n
-                    ' . PROGRAM_TITLE . ' Team. \n';
+        $message = 'Hello,
+                    It looks like your forgot your password!
+                    If you are not at the origin of this request please ignore this E-mail.
+                    If you asked for a password reset, please follow this link: ' . cleanUrl('user/resetpassword/' . $user['id'] . '/' . $user['activation_key']) . '
+                    Best regards,
+                    ' . PROGRAM_TITLE . ' Team.';
         $headers = 'From: noreply' . EMAIL_BASE . "\r\n" .
                    'X-Mailer: PHP/' . phpversion();
 

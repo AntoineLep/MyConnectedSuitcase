@@ -70,7 +70,7 @@
                             ?>
                             <div class=<?php echo $formGroupClass; ?>>
                                 <label>
-                                    <input name="terms" type="checkbox" value="agreed"> I have read and agree the <a href=<?php echo url('cgu'); ?> target="_blank">Terms and conditions</a>
+                                    <input name="terms" type="checkbox" value="agreed"> I have read and agree the <a href=<?php echo url('gcu'); ?> target="_blank">Terms and conditions</a>
                                     <?php echo $helpBlock; ?>
                                 </label>
                             </div>

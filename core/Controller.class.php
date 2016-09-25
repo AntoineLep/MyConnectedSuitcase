@@ -50,7 +50,7 @@
             extract($vars);
 
             if($view)
-                require(VIEW_FOLDER . DS . str_replace('/', '\\', $view) . '.php');
+                require(VIEW_FOLDER . DS . str_replace('\\', DS, str_replace('/', DS, $view)) . '.php');
 
             $_viewContent = ob_get_clean();
 
