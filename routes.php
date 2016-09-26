@@ -22,13 +22,17 @@
 
         Router::get('/destination/delete/:id', 'DestinationController.delete')->with(':id', '[0-9]+')->middleware('Authentication');
 
-        //images
+        //Images
         Router::get('/image/-1/:idDestination', 'ImageController.create')->with(':idDestination', '[0-9]+')->middleware('Authentication');
 
         Router::get('/image/:id', 'ImageController.edit')->with(':id', '[0-9]+')->middleware('Authentication');
         Router::post('/image/:id', 'ImageController.save')->with(':id', '[0-9]+')->middleware('Authentication');
 
         Router::get('/image/delete/:id', 'ImageController.delete')->with(':id', '[0-9]+')->middleware('Authentication');
+
+        //Trip map
+        Router::get('/tripmap/:username/:tripId', 'TripMapController')->with(':id', '[0-9]+');
+
 
         //User
         Router::get('/user', 'UserController')->middleware('Authentication');

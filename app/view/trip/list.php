@@ -11,9 +11,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <a data-toggle="collapse" href=<?php echo '"#' . $cssId . '"'; ?> aria-expanded="false" aria-controls=<?php echo '"' . $cssId . '"'; ?>>
-                        <strong><?php echo $trip['name']; ?></strong>
+                        <strong><?php echo $trip['name']; ?></strong> (<?php echo $destinationNumber; ?>)
                     </a>
-                    <span class="badge badge-info"><?php echo $destinationNumber; ?></span>
+                    &nbsp;
+                    <a href=<?php echo url('/tripmap/' . $user['username'] . '/' . $trip['id']); ?>><span class="badge badge-default"><i class="fa fa-map fa-fw"></i> See trip map</span></a>
                     <span>
                         <?php if(!empty(trim($trip['description'])))
                             echo ' - ' . $trip['description'];

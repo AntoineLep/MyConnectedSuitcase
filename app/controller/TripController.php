@@ -3,11 +3,13 @@
 
         public function __construct(){
             parent::__construct('administration');
-            $this->loadModel('DestinationModel');
             $this->loadModel('TripModel');
         }
 
         public function index(){
+            $this->loadModel('DestinationModel');
+            $this->loadModel('UserModel');
+
             $trips = $this->TripModel->getAllTrips();
             $destinations = $this->DestinationModel->getAllUserDestinations();
             $destinationsByTripId = [];
@@ -18,6 +20,7 @@
                 array_push($destinationsByTripId[$destination['id_trip']], $destination);
             }
 
+            $user = $this->UserModel->getUserInfo();
             $destinationsImageNumber = $this->DestinationModel->getDestinationIdAndRelatedImageNumber();
             $destImgNumArr = [];
 
@@ -25,7 +28,7 @@
                 $destImgNumArr[$destinationImageNumber['id_destination']] = $destinationImageNumber['num_rows'];
             }
 
-            $this->loadView('trip/list', compact('trips', 'destinationsByTripId', 'destImgNumArr'));
+            $this->loadView('trip/list', compact('trips', 'destinationsByTripId', 'destImgNumArr', 'user'));
             $this->render();
         }
 

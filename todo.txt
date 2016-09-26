@@ -4,7 +4,6 @@ TODO
 Highprio:
 ---------
 redirect routing errors to 404 page not found
-verify that the email is sent by deploying the application on the server
 
 Lowprio:
 --------
