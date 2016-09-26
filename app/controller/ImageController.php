@@ -67,7 +67,7 @@
                         $extension = strtolower(end($explodedFilename));
 
                         if(in_array($extension, $imageExtensions)){
-                                $image['filename'] =  hash('sha256', session_id() . microtime()) . '.' . $extension;
+                                $image['filename'] =  md5(uniqid() . microtime()) . '.' . $extension;
                                 $this->loadModel('UserModel');
                                 $user = $this->UserModel->getUserInfo();
                                 $image['filedir'] = ASSETS_FOLDER . DS . 'img' . DS . USER_IMAGES_FOLDER_NAME . DS . $user['image_folder'] . DS . '_temp' . DS;

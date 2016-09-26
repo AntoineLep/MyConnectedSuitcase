@@ -62,8 +62,18 @@
                 $imgSmallDest = 'small_' . $image['filename'];
                 $imgBigDest = 'big_' . $image['filename'];
                 
-                $redimSmall = resizeImg(400, 400, $repDest, $imgSmallDest, $image['filedir'], $image['filename']);
-                $redimBig = resizeImg(1200, 1200, $repDest, $imgBigDest, $image['filedir'], $image['filename']);
+                $redimSmall = false;
+                $redimBig = false;
+                
+                if(!resizeImg(400, 400, $repDest, $imgSmallDest, $image['filedir'], $image['filename']))
+                    $redimSmall = copy($image['filedir'] . $image['filename'], $repDest . $imgSmallDest);
+                else
+                    $redimSmall = true;
+
+                if(!resizeImg(1200, 1200, $repDest, $imgBigDest, $image['filedir'], $image['filename']))
+                    $redimBig = copy($image['filedir'] . $image['filename'], $repDest . $imgBigDest);
+                else
+                    $redimBig = true;
 
                 if($redimSmall && $redimBig)
                     unlink($image['filedir'] . $image['filename']);
@@ -92,8 +102,18 @@
                     $imgSmallDest = 'small_' . $image['filename'];
                     $imgBigDest = 'big_' . $image['filename'];
                     
-                    $redimSmall = resizeImg(400, 400, $repDest, $imgSmallDest, $image['filedir'], $image['filename']);
-                    $redimBig = resizeImg(1200, 1200, $repDest, $imgBigDest, $image['filedir'], $image['filename']);
+                    $redimSmall = false;
+                    $redimBig = false;
+
+                    if(!resizeImg(400, 400, $repDest, $imgSmallDest, $image['filedir'], $image['filename']))
+                        $redimSmall = copy($image['filedir'] . $image['filename'], $repDest . $imgSmallDest);
+                    else
+                        $redimSmall = true;
+
+                    if(!resizeImg(1200, 1200, $repDest, $imgBigDest, $image['filedir'], $image['filename']))
+                        $redimBig = copy($image['filedir'] . $image['filename'], $repDest . $imgBigDest);
+                    else
+                        $redimBig = true;
 
                     if($redimSmall && $redimBig)
                         unlink($image['filedir'] . $image['filename']);

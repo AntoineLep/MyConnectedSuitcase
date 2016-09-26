@@ -6,9 +6,13 @@
             $this->loadModel('UserModel');
         }
 
-        public function index(){
+        public function index($user = null, $errors = null, $success = null){
             $this->loadView('user/user');
-            $this->render(['pageTitle' => 'User profile']);
+            $this->render();
+        }
+
+        public function doChangeUserInfo($action){
+            $possibleActions = ['updateemail', 'changepassword', 'deleteaccount'];
         }
 
         public function login($user = null, $errors = null){

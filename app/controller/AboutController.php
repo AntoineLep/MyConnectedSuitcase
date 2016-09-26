@@ -7,7 +7,7 @@
 
         public function index(){
             $this->loadView('about/about');
-            $this->render(['pageTitle' => 'About']);
+            $this->render();
         }
     }
 

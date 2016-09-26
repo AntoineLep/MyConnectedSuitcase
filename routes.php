@@ -36,6 +36,8 @@
 
         //User
         Router::get('/user', 'UserController')->middleware('Authentication');
+        Router::post('/user/form/:action', 'UserController.doChangeUserInfo')->middleware('Authentication');
+        
         Router::get('/user/logout', 'UserController.logout');
 
         Router::get('/user/login', 'UserController.login');

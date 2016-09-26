@@ -196,11 +196,11 @@
                     switch($extension){
                         case 'jpg':
                         case 'jpeg':
-                            $Ress_Src = imagecreatefromjpeg($rep_Src.$img_Src);
+                            $Ress_Src = imagecreatefromjpeg($rep_Src . $img_Src);
                             $Ress_Dst = ImageCreateTrueColor($W,$H);
                             break;
                         case 'png':
-                            $Ress_Src = imagecreatefrompng($rep_Src.$img_Src);
+                            $Ress_Src = imagecreatefrompng($rep_Src . $img_Src);
                             $Ress_Dst = ImageCreateTrueColor($W,$H);
                             imagesavealpha($Ress_Dst, true);
                             $trans_color = imagecolorallocatealpha($Ress_Dst, 0, 0, 0, 127);

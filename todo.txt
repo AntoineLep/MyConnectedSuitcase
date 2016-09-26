@@ -3,6 +3,9 @@ TODO
 
 Highprio:
 ---------
+Create home page
+Create User profile section content
+Create About / credit section content
 redirect routing errors to 404 page not found
 
 Lowprio:
