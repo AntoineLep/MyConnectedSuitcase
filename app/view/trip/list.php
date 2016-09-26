@@ -10,21 +10,18 @@
         <div class="row">
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
+                    <strong><?php echo $trip['name']; ?></strong> (<?php echo $destinationNumber; ?>)
+                    &nbsp;
                     <a data-toggle="collapse" href=<?php echo '"#' . $cssId . '"'; ?> aria-expanded="false" aria-controls=<?php echo '"' . $cssId . '"'; ?>>
-                        <strong><?php echo $trip['name']; ?></strong> (<?php echo $destinationNumber; ?>)
+                        <span class="badge badge-default"><i class="fa fa-map-marker fa-fw"></i> See / add destination(s)</span>
                     </a>
                     &nbsp;
                     <a href=<?php echo url('/tripmap/' . $user['username'] . '/' . $trip['id']); ?>><span class="badge badge-default"><i class="fa fa-map fa-fw"></i> See trip map</span></a>
-                    <span>
-                        <?php if(!empty(trim($trip['description'])))
-                            echo ' - ' . $trip['description'];
-                        ?>
-                    </span>
                     <span class="pull-right">
-                        <a class="btn btn-primary" href=<?php echo url('trip/' . $trip['id']); ?> role="button">
+                        <a class="btn btn-primary btn-sm" href=<?php echo url('trip/' . $trip['id']); ?> role="button">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Trip info
                         </a>&nbsp;
-                        <a class="btn btn-danger" href=<?php echo url('trip/delete/' . $trip['id']); ?> role="button" onclick="return confirm('Are you sure you want to delete this item? All related content will be deleted');">
+                        <a class="btn btn-danger btn-sm" href=<?php echo url('trip/delete/' . $trip['id']); ?> role="button" onclick="return confirm('Are you sure you want to delete this item? All related content will be deleted');">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete trip
                         </a>
                     </span>
@@ -52,10 +49,10 @@
                         <span class="list-group-item clearfix">
                             <?php echo '<strong>' . $destination['name'] . '</strong> ' . $fromDate . $toDate . $imgs ?>
                             <span class="pull-right">
-                                <a class="btn btn-primary" href=<?php echo url('destination/' . $destination['id']); ?> role="button">
+                                <a class="btn btn-primary btn-sm" href=<?php echo url('destination/' . $destination['id']); ?> role="button">
                                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Destination info
                                 </a>&nbsp;
-                                <a class="btn btn-danger" href=<?php echo url('destination/delete/' . $destination['id']); ?> role="button" onclick="return confirm('Are you sure you want to delete this item? All related content will be deleted');">
+                                <a class="btn btn-danger btn-sm" href=<?php echo url('destination/delete/' . $destination['id']); ?> role="button" onclick="return confirm('Are you sure you want to delete this item? All related content will be deleted');">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete destination
                                 </a>
                             </span>
@@ -67,7 +64,7 @@
             </div>
         </div>
         <?php } ?>
-        <a class="btn btn-default" href=<?php echo url('trip/-1'); ?> role="button">
+        <a class="btn btn-default btn-sm" href=<?php echo url('trip/-1'); ?> role="button">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New trip
         </a>
     </div>

@@ -43,7 +43,11 @@
                 <?php echo $helpBlock; ?>
             </div>
 
-            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button>
+            <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button>
+            <a class="btn btn-default btn-sm" href=<?php echo url('/trip'); ?> role="button">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back to my trips
+            </a>
+
         </form>
     </div>
 </div>

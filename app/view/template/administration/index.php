@@ -24,18 +24,18 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
-                        <a href=<?php echo url('/trip') ?>><i class="fa fa-globe fa-fw"></i> Administration</a>
+                        <a href=<?php echo url('/trip') ?>><i class="fa fa-globe fa-fw"></i><strong> Administration</strong></a>
                     </li>
                     <li>
-                        <a href=<?php echo url('/user/logout') ?>><i class="fa fa-sign-out fa-fw"></i> Log out</a>
+                        <a href=<?php echo url('/user/logout') ?>><i class="fa fa-sign-out fa-fw"></i><strong> Log out</strong></a>
                     </li>
                 </ul>
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
-                            <li> <a href=<?php echo url('/trip'); ?>><i class="fa fa-globe fa-fw"></i> Trips</a></li>
-                            <li> <a href=<?php echo url('/user'); ?>><i class="fa fa-user fa-fw"></i> User profile</a></li>
-                            <li> <a href=<?php echo url('/about'); ?>><i class="fa fa-question fa-fw"></i> About</a></li>
+                            <li><a href=<?php echo url('/trip'); ?>><i class="fa fa-globe fa-fw"></i><strong> Trips</strong></a></li>
+                            <li><a href=<?php echo url('/user'); ?>><i class="fa fa-user fa-fw"></i><strong> User profile</strong></a></li>
+                            <li><a href=<?php echo url('/about'); ?>><i class="fa fa-question fa-fw"></i><strong> About</strong></a></li>
                         </ul>
                     </div>
                 </div>

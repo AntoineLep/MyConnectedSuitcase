@@ -67,7 +67,7 @@ body{
   }
 }
 .sidebar a {
-  color: #444444;
+  color: #444455;
 }
 
 .sidebar .sidebar-nav .navbar-collapse {
@@ -129,6 +129,7 @@ body{
 .navbar-top-links li a {
   padding: 15px;
   min-height: 50px;
+  color: #444455;
 }
 .navbar-top-links .dropdown-menu li {
   display: block;
@@ -136,4 +137,18 @@ body{
 .navbar-top-links .dropdown-menu li a {
   padding: 3px 20px;
   min-height: 0;
+}
+
+.panel-heading a:hover{
+  text-decoration: none;
+}
+.panel-heading a:focus{
+  text-decoration: none;
+}
+.panel a:hover{
+  text-decoration: none;
+}
+.panel .btn-sm{
+  margin-top: 2px;
+  margin-bottom: 2px;
 }

@@ -18,17 +18,17 @@
                 <ul class="nav navbar-top-links navbar-right">
                     <?php if(!userIsConnected()) { ?>
                         <li>
-                            <a href=<?php echo url('/user/login') ?>><i class="fa fa-sign-in fa-fw"></i> Log in</a>
+                            <a href=<?php echo url('/user/login') ?>><i class="fa fa-sign-in fa-fw"></i><strong> Log in</strong></a>
                         </li>
                         <li>
-                            <a href=<?php echo url('/user/signup') ?>><i class="fa fa-plus fa-fw"></i> Sign up</a>
+                            <a href=<?php echo url('/user/signup') ?>><i class="fa fa-plus fa-fw"></i><strong> Sign up</strong></a>
                         </li>
                     <?php } else { ?>
                         <li>
-                            <a href=<?php echo url('/trip') ?>><i class="fa fa-globe fa-fw"></i> Administration</a>
+                            <a href=<?php echo url('/trip') ?>><i class="fa fa-globe fa-fw"></i><strong> Administration</strong></a>
                         </li>
                         <li>
-                            <a href=<?php echo url('/user/logout') ?>><i class="fa fa-sign-out fa-fw"></i> Log out</a>
+                            <a href=<?php echo url('/user/logout') ?>><i class="fa fa-sign-out fa-fw"></i><strong> Log out</strong></a>
                         </li>
                     <?php } ?>
                 </ul>

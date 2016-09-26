@@ -118,7 +118,7 @@
                 </select>
                 <?php echo $helpBlock; ?>
             </div>
-            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button>
+            <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button>
         </form>
     </div>
 </div>
@@ -142,17 +142,25 @@
                     <?php echo $caption; ?>
                     <?php echo $description; ?>
                     <p>
-                        <a href=<?php echo url('image/' . $image['id']); ?> class="btn btn-primary" role="button"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Image info</a>&nbsp;
-                        <a href=<?php echo url('image/delete/' . $image['id']); ?> class="btn btn-danger" href=<?php echo url('image/delete/' . $image['id']); ?> role="button" onclick="return confirm('Are you sure you want to delete this image?');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete image</a>
+                        <a href=<?php echo url('image/' . $image['id']); ?> class="btn btn-primary btn-sm" role="button"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Image info</a>&nbsp;
+                        <a href=<?php echo url('image/delete/' . $image['id']); ?> class="btn btn-danger btn-sm" href=<?php echo url('image/delete/' . $image['id']); ?> role="button" onclick="return confirm('Are you sure you want to delete this image?');"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete image</a>
                     </p>
                 </div>
             </div>
         </div>
         <?php } ?>
         <div class="col-md-12">
-            <a class="btn btn-default" href=<?php echo url('image/-1/' . $destination['id']); ?> role="button">
+            <a class="btn btn-default btn-sm" href=<?php echo url('image/-1/' . $destination['id']); ?> role="button">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New picture
             </a>
         </div>
 </div>
 <?php } ?>
+<br/>
+<div class="row">
+    <div class="col-md-12">
+        <a class="btn btn-default btn-sm" href=<?php echo url('/trip'); ?> role="button">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back to my trips
+        </a>
+    </div>
+</div>

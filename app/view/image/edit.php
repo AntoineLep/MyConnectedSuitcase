@@ -78,8 +78,8 @@
                 </div>
             </div><br/>
             <div class="row">
-                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button>
-                <a class="btn btn-default" href=<?php echo url('destination/' . str_replace('"', '', $idDestinationValue) . '#destination-picture'); ?> role="button">
+                <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button>
+                <a class="btn btn-default btn-sm" href=<?php echo url('destination/' . str_replace('"', '', $idDestinationValue) . '#destination-picture'); ?> role="button">
                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back to the destination info
                 </a>
             </div>
