@@ -73,7 +73,7 @@
         <form class="form-default" method="post" action=<?php echo url('/user/form/deleteaccount') ?>>
             <input type="hidden" name="delete" value="true"/>
             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete your account? All related content will be deleted');">
-                <span class="glyphicon glyphicon-save" aria-hidden="true"></span> delete my account
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> delete my account
             </button>
         </form>
     </div>
