@@ -6,13 +6,89 @@
             $this->loadModel('UserModel');
         }
 
-        public function index($user = null, $errors = null, $success = null){
-            $this->loadView('user/user');
+        public function index($userForm = null, $errors = null, $success = null){
+            $user = $this->UserModel->getUserInfo();
+            $this->loadView('user/user', compact('user', 'userForm', 'errors', 'success'));
             $this->render();
         }
 
         public function doChangeUserInfo($action){
             $possibleActions = ['updateemail', 'changepassword', 'deleteaccount'];
+            if(!in_array($action, $possibleActions)){
+                $errors['other'] = 'unknown action';
+                return $this->index(null, $errors, null);
+            }
+
+            $errors = [];
+
+            if($action =='updateemail'){
+                $formResult['newEmail'] = (isset($_POST['new-email']) && !empty(trim($_POST['new-email']))) ? $_POST['new-email'] : '';
+                //email
+                if($formResult['newEmail'] == '')
+                    $errors['newEmail'] = 'E-mail required';
+                elseif(!validEmail($formResult['newEmail']))
+                    $errors['newEmail'] = 'E-mail not valid';
+
+                if(count($errors) > 0)
+                    return $this->index($formResult, $errors);
+
+                $this->UserModel->updateCurrentUserEmail($formResult['newEmail']);
+                $success = 'Your E-mail has been changed!';
+                return $this->index(null, null, $success);
+            }
+            elseif($action == 'changepassword'){
+                $formResult = ['currentPassword' => (isset($_POST['current-password']) && !empty(trim($_POST['current-password']))) ? $_POST['current-password'] : '',
+                                'password1' => (isset($_POST['password1']) && !empty(trim($_POST['password1']))) ? $_POST['password1'] : '',
+                                'password2' => (isset($_POST['password2']) && !empty(trim($_POST['password2']))) ? $_POST['password2'] : ''];
+
+                if($formResult['currentPassword'] == '')
+                    $errors['currentPassword'] = 'Current password is required an cannot be empty';
+
+                if($formResult['password1'] == '')
+                    $errors['password1'] = 'New password is required an cannot be empty';
+
+                if($formResult['password2'] == '')
+                    $errors['password2'] = 'New password confirmation is required an cannot be empty';
+
+                if(count($errors) > 0){
+                    unset($formResult['currentPassword']);
+                    unset($formResult['password1']);
+                    unset($formResult['password2']);
+                    return $this->index($formResult, $errors);
+                }
+
+                $dbUser = $this->UserModel->getUserInfo();
+                if(!password_verify($formResult['currentPassword'], $dbUser['password']))
+                    $errors['currentPassword'] = 'Password is incorrect';
+
+                if($formResult['password1'] != $formResult['password2'])
+                    $errors['password2'] = 'Password confirmation is different from password';
+
+                if(count($errors) > 0){
+                    unset($formResult['currentPassword']);
+                    unset($formResult['password1']);
+                    unset($formResult['password2']);
+                    return $this->index($formResult, $errors);
+                }
+
+                $formResult['id'] = $dbUser['id'];
+                $formResult['activation_key'] = $dbUser['activation_key'];
+                
+                $this->UserModel->updatePasswordWithIdAndToken($formResult);
+                $success = 'Your password has been changed!';
+                return $this->index(null, null, $success);
+            }
+            elseif ($action == 'deleteaccount') {
+                $formResult['delete'] = (isset($_POST['delete']) && !empty(trim($_POST['delete']))) ? $_POST['delete'] : '';
+
+                if($formResult['delete'] == ''){
+                    $errors['other'] = 'An error occured when deleting your account';
+                    return $this->index(null, $errors);
+                }
+
+                $this->UserModel->deleteCurrentUser();
+                return $this->logout();
+            }
         }
 
         public function login($user = null, $errors = null){
@@ -228,10 +304,10 @@
 
             $errors = [];
 
-             //email
+            //email
             if($formResult['email'] == '')
                 $errors['email'] = 'E-mail required';
-            elseif(!(filter_var($formResult['email'], FILTER_VALIDATE_EMAIL) && preg_match('/@.+\./', $formResult['email'])))
+            elseif(!validEmail($formResult['email']))
                 $errors['email'] = 'E-mail not valid';
 
             //username

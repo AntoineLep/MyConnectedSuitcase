@@ -64,7 +64,7 @@
             if(count($errors) == 0){
                 $retId = $this->TripModel->addOrUpdate($trip);
                 $successMessage = ($id == $retId) ? 'Your changes have been saved !' : 'New trip created !';
-                $successMessage .= ' <a href=' . url('trip') . '>Back to my trips</a>';
+                $successMessage .= ' <a href=' . url('/destination/-1/' . $retId) . '>Create a new trip destination</a> or <a href=' . url('/trip') . '>go back to your trips</a> ';
                 return $this->edit($retId, $successMessage, $errors);
             }
             else{

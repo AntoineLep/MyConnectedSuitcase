@@ -31,6 +31,17 @@
             return null;
         }
 
+        public function updateCurrentUserEmail($email){
+            $sth = $this->db->prepare('UPDATE mcs_user 
+                                        SET email = :email
+                                        WHERE id = :id');
+            $params = ['id' => $this->idUser,
+                        'email' => $email];
+
+            $sth->execute($params);          
+            return $this->idUser;
+        }
+
         public function activateUserWithId($id){
             $sth = $this->db->prepare('UPDATE mcs_user 
                                         SET status = 1
@@ -134,9 +145,23 @@
 
                 return $lastID;
             }
-            else {
-                //TODO : user update info
-            }
+        }
+
+        public function deleteCurrentUser(){
+            $tripModel = new TripModel();
+            $userTrips = $tripModel->getAllTrips();
+
+            foreach ($userTrips as $trip)
+                $tripModel->deleteTripById($trip['id']);
+
+            $dbUser = $this->getUserInfo();
+            $userRepo = ASSETS_FOLDER . DS . 'img' . DS . USER_IMAGES_FOLDER_NAME . DS . $dbUser['image_folder'];
+            delTree($userRepo);
+
+            $sth = $this->db->prepare('DELETE FROM mcs_user WHERE id = :id');
+            $sth->execute([':id' => $this->idUser]);
+
+            return true;
         }
     }
 ?>

@@ -95,6 +95,27 @@
     }
 
     /**
+    * Tells if an email is a valid email or not
+    * @param (string) email : The email to be validated
+    * @return (bool) True if the email is valid, false otherwise
+    */
+    function validEmail($email){
+        return (filter_var($email, FILTER_VALIDATE_EMAIL) && preg_match('/@.+\./', $email));
+    }
+
+    /**
+    * Delete a repository and all its files
+    * @param (string) dir : The dir path
+    * @return (bool) True if the deletion success, false otherwise
+    */
+    function delTree($dir) {
+        $files = array_diff(scandir($dir), array('.', '..'));
+        foreach ($files as $file) 
+            (is_dir($dir . DS . $file)) ? delTree($dir . DS . $file) : unlink($dir . DS . $file);
+        return rmdir($dir);
+  } 
+
+    /**
     * Try to autolog the user if a cookie exists
     */
     function autologin(){

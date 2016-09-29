@@ -4,12 +4,16 @@ TODO
 Highprio:
 ---------
 Create home page
-Create User profile section content
 Create About / credit section content
 redirect routing errors to 404 page not found
+put some markups on the map page to enable social network tracking
+develop a simple caching system to store the path to the several classes in a file to access it quickly when autoloading
 
 Lowprio:
 --------
+Create a lang file (and lang system in framework). Do not forget taking into an acocunt the date formatting
+implement 2 views for the map (a global one and a step by step one)
+add a page to contact the administrator
 When a user connect for the first time to the application, a popover appears to ask him for a short functionnality overview
 when doing a render, give a a parameter the page title (to be displayed in <head><title></title></head>)
 Create a token when a user is connected. Use this token to validate a form has been sent by a specific user
