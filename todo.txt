@@ -5,8 +5,14 @@ Highprio:
 ---------
 Create home page
 Create About / credit section content
-redirect routing errors to 404 page not found
+Develop the map tracing system
+	auto zoom
+	start icon, finish icon
+	icon for movement depending on transportation type
+	display a frame at every destination with a short overview of images
+		when clicking on the frame, a modal view is displayed to see destination details (description, transportation type, images, images caption, images description)
 put some markups on the map page to enable social network tracking
+redirect routing errors to 404 page not found
 develop a simple caching system to store the path to the several classes in a file to access it quickly when autoloading
 
 Lowprio:
