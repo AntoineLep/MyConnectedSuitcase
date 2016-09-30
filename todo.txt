@@ -3,8 +3,7 @@ TODO
 
 Highprio:
 ---------
-Create home page
-Create About / credit section content
+Create help section content
 Develop the map tracing system
 	auto zoom
 	start icon, finish icon

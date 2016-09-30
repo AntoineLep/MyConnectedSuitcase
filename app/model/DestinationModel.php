@@ -10,6 +10,12 @@
                 $this->idUser = $_SESSION['idUser'];
         }
 
+        public function getNumberOfDestinations(){
+            $sth = $this->db->prepare('SELECT count(id) as num_rows FROM mcs_destination');
+            $sth->execute();
+            return $sth->fetchAll()[0]['num_rows'];
+        }
+
         public function isUserValid($idDestination = -1){
             if($idDestination == -1){
                 $sth = $this->db->prepare('SELECT count(id) as num_rows FROM mcs_user WHERE id = :idUser');

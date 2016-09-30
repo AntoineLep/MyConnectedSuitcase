@@ -9,6 +9,12 @@
                 $this->idUser = $_SESSION['idUser'];
         }
 
+        public function getNumberOfImages(){
+            $sth = $this->db->prepare('SELECT count(id) as num_rows FROM mcs_image');
+            $sth->execute();
+            return $sth->fetchAll()[0]['num_rows'];
+        }
+
         public function isUserValid($idImage = -1){
             if($idImage == -1){
                 $sth = $this->db->prepare('SELECT count(id) as num_rows FROM mcs_user WHERE id = :idUser');

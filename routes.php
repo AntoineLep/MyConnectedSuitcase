@@ -57,7 +57,7 @@
 
         Router::get('/user/activate/:id/:activationKey', 'UserController.activate')->with(':id', '[0-9]+');
 
-        Router::get('/about', 'AboutController')->middleware('Authentication');
+        Router::get('/help', 'HelpController')->middleware('Authentication');
 
         Router::run();
     }

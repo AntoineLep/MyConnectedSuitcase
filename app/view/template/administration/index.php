@@ -35,7 +35,7 @@
                         <ul class="nav" id="side-menu">
                             <li><a href=<?php echo url('/trip'); ?>><i class="fa fa-globe fa-fw"></i><strong> Trips</strong></a></li>
                             <li><a href=<?php echo url('/user'); ?>><i class="fa fa-user fa-fw"></i><strong> User profile</strong></a></li>
-                            <li><a href=<?php echo url('/about'); ?>><i class="fa fa-question fa-fw"></i><strong> About</strong></a></li>
+                            <li><a href=<?php echo url('/help'); ?>><i class="fa fa-question fa-fw"></i><strong> Help</strong></a></li>
                         </ul>
                     </div>
                 </div>
