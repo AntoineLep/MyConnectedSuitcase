@@ -358,7 +358,10 @@
         }
 
         public function logout(){
+            $_SESSION['idUser'] = 0;
             session_destroy();
+            if(isset($_COOKIE['rememberMe']))
+                $_COOKIE['rememberMe'] = md5(uniqid() . microtime()); 
             unset($_COOKIE['rememberMe']);
             header('location: ' . cleanUrl('/'));
             return;

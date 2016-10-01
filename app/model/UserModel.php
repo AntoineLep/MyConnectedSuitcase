@@ -10,7 +10,7 @@
         }
 
         public function getNumberOfUsers(){
-            $sth = $this->db->prepare('SELECT count(id) as num_rows FROM mcs_user');
+            $sth = $this->db->prepare('SELECT count(id) as num_rows FROM mcs_user WHERE status > 0');
             $sth->execute();
             return $sth->fetchAll()[0]['num_rows'];
         }

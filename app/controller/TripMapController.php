@@ -3,11 +3,63 @@
 
         public function __construct(){
             parent::__construct('map');
+            $this->loadModel('TripMapModel');
         }
 
         public function index(){
-            $this->loadView('tripmap/map');
+        }
+
+        public function showTripMap($username, $tripId){
+            $dbUser = $this->TripMapModel->getUserByUsername($username);
+            $dbTrip = $this->TripMapModel->getTripById($tripId);
+
+            if($dbUser == null || $dbTrip == null)
+                header('location:' . cleanUrl(('/404')));
+
+            $mapVars['user'] = $dbUser;
+            $mapVars['trip'] = $dbTrip;
+
+            $this->loadView('tripmap/map', compact('mapVars'));
             $this->render();
+        }
+
+        public function getDestinations($username, $idTrip){
+            $dbUser = $this->TripMapModel->getUserByUsername($username);
+            $transportationTypes = $this->TripMapModel->getAllTransportationTypes();
+            $simplifiedTransportationType = [];
+
+            foreach ($transportationTypes as $transportationType) {
+                $simplifiedTransportationType[$transportationType['id']]= [
+                        'folder' => str_replace('"', '', img_path(TRANSPORTATION_TYPE_IMAGES_FOLDER_NAME . DS . $transportationType['img_folder'])), 
+                        'prefix' => $transportationType['img_prefix'],
+                        'extension' => $transportationType['img_extension']
+                        ];
+            }
+
+            $imageFolder = USER_IMAGES_FOLDER_NAME . '/' . $dbUser['image_folder'];
+
+            $destinations = $this->TripMapModel->getDestinationsWithTripIdAndUsername($username, $idTrip);
+            $retVar = [];
+
+            foreach ($destinations as $destination) {
+
+                $images = $this->TripMapModel->getImagesWithDestinationId($destination['id']);
+                $infoWindow = $this->loadView('tripmap/infowindow', compact('destination', 'images', 'imageFolder'), true); //return it as html
+
+                $retDest = ['name' => $destination['name'],
+                            'description' => $destination['description'],
+                            'startDate' => $destination['startDate'],
+                            'endDate' => $destination['endDate'],
+                            'transportationType' => $simplifiedTransportationType[$destination['id_transportation_type']],
+                            'lat' => floatval($destination['lat']),
+                            'lng' => floatval($destination['lng']),
+                            'infoWindow' => $infoWindow
+                        ];
+
+                array_push($retVar, $retDest);
+            }
+
+            echo json_encode($retVar);
         }
     }
 

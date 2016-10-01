@@ -1,24 +1,23 @@
 $(function(){
     var refreshRate = 1000; //Refresh every x ms
     var positionAtStartup = [43.6025941, 1.4366249]; //Default position when launching map
-    var defaultZoom = 15;
-    var sensitivity = 0.001; //Minimum gps lat or lng change to take into an account
+    var defaultZoom = 12;
     var lineColor = "#1d51a2"; //Line color
     var lineOpacity = 0.7; //Line opacity
     var lineWeight = 4; //Line weight
-
-    //Marker position is not exactly the same as set in the code...
-    //The delta is approximaively 1E-6 each time. Sensitivity is set to 1.E-5 to match with any cases
-    //var markerErasementSensitivity = 0.000001; //usefull if the markers array if not limited in size (also uncomment lines 44 to 56 to enable this feature)
+    var baseUrl = document.URL; //Url of the current page
     var lastKnownPosition = [0, 0];
     var markers = [null];
+    var username = $('#username').val();
+    var tripId = $('#tripid').val();
 
     initialize();
 
     google.maps.event.addListenerOnce(map, 'idle', function(){ //Wait until map is ready
-        setInterval(refresh, refreshRate); //Apply the refresh rate to the refresh function
+        populateData(username, tripId);
     });
 
+    //first function to be called : init map fields
     function initialize() {
         map = new google.maps.Map($('#map')[0], {
             zoom: defaultZoom,
@@ -27,20 +26,38 @@ $(function(){
         });
     }
 
-    function refresh() {
+    //second function to be called: populate the data
+    function populateData(username, idTrip){
+        var uri = baseUrl + "/destinations";
+        var loc;
+        var bounds = new google.maps.LatLngBounds();
+
         $.ajax({
             type: "GET",
-            url: "ajax/script.php",
+            url: uri,
             data: null,
             dataType: 'json',
             success: function(data){
-                if(JSON.stringify(lastKnownPosition) != JSON.stringify(data)) {
-                    if(Math.abs(lastKnownPosition[0] - data[0]) > sensitivity || Math.abs(lastKnownPosition[1] - data[1]) > sensitivity ) {
+                if(data != null){ //there are destinations !
+                    var destinationsNumber = data.length;
+                    data.forEach(function(item, index){
+
+                        loc = new google.maps.LatLng(item["lat"], item["lng"]);
+                        bounds.extend(loc);
 
                         //Create the new marker
                         var marker = new google.maps.Marker({
-                            position: {lat: data[0], lng: data[1]},
+                            position: {lat: item["lat"], lng: item["lng"]},
                             map: map
+                        });
+
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: item["infoWindow"]
+                        });
+
+                        marker.addListener('click', function() {
+                            infowindow.open(map, marker);
                         });
 
                         markers.push(marker);
@@ -50,7 +67,7 @@ $(function(){
                             var lineToDraw =
                             [
                                 {lat: lastKnownPosition[0], lng: lastKnownPosition[1]},
-                                {lat: data[0], lng: data[1]}
+                                {lat: item["lat"], lng: item["lng"]}
                             ];
 
                             var newLine = new google.maps.Polyline({
@@ -62,10 +79,18 @@ $(function(){
                             newLine.setMap(map);
                         }
 
-                        map.panTo({lat: data[0], lng: data[1]}); //Center the map on the new point
-                        lastKnownPosition = data; //Update last known position with current position
-                    }
+                        //map.panTo({lat: data[0], lng: data[1]}); //Center the map on the new point
+
+                        lastKnownPosition[0] = item["lat"]; //Update last known position with current position
+                        lastKnownPosition[1] = item["lng"]
+                    });
+                    
+                    map.fitBounds(bounds);
+                    map.panToBounds(bounds);
                 }
+            },
+            error: function(result, statut, error){
+                console.log("Error when retrieving the trip destinations")
             }
         })
     }

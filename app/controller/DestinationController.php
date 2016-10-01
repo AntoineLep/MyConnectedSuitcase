@@ -96,6 +96,10 @@
             else 
                 $destination['endDate'] = null;
 
+            if($destination['startDate'] != null && $destination['endDate'] != null)
+                if(DateTime::createFromFormat('m/d/Y', $formResult['endDate']) < DateTime::createFromFormat('m/d/Y', $formResult['startDate']))
+                    $errors['endDate'] = 'Arrival date can\'t be earlier than departure date';
+
             //Transportation type
             if($formResult['transportationType'] != '')
                 if($this->TransportationTypeModel->transportationTypeIdExists($formResult['transportationType']))

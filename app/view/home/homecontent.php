@@ -41,7 +41,7 @@
         </div>
         <div class="row" style="padding: 30px;">
             <div class="col-lg-12 text-center">
-                <h3 class="section-subheading text-muted">Bring up your friends in your trips : <a class="btn btn-lg btn-primary" href=<?php echo url('user/login') ?>>Log In</a>&nbsp; / &nbsp;<a class="btn btn-lg btn-success" href=<?php echo url('user/signup') ?>>Sign Up</a></h3>
+                <h3 class="section-subheading text-muted">Bring up your friends in your trips : <a class="btn btn-lg btn-primary" href=<?php echo url('user/login') ?>>Log In</a><a class="btn btn-lg btn-success" href=<?php echo url('user/signup') ?>>Sign Up</a></h3>
             </div>
         </div>
     </div>

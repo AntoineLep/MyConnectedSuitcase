@@ -20,6 +20,11 @@
             $this->loadView('termsconditions/termsconditionscontent');
             $this->render();
         }
+
+        public function notfound(){
+            $this->loadView('errors/404');
+            $this->render();
+        }
     }
 
 ?>

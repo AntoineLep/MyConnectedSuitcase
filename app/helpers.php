@@ -91,7 +91,7 @@
     * @return (bool) True if the user is connected, false otherwise
     */
     function userIsConnected(){
-        return isset($_SESSION['idUser']);
+        return (isset($_SESSION['idUser']) && $_SESSION['idUser'] > 0);
     }
 
     /**

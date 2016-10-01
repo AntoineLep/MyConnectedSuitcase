@@ -41,7 +41,6 @@ body{
 
 #page-wrapper {
   padding: 5px;
-  min-height: 568px;
   background-color: white;
 }
 
@@ -56,7 +55,6 @@ body{
 
 #homepage-wrapper {
   padding: 0px;
-  min-height: 568px;
   background-color: white;
 }
 
@@ -139,6 +137,11 @@ body{
   min-height: 0;
 }
 
+.link-no-deco {
+  text-decoration: none;
+  color: #444455;
+}
+
 .panel-heading a:hover{
   text-decoration: none;
 }
@@ -151,6 +154,14 @@ body{
 .panel .btn-sm{
   margin-top: 2px;
   margin-bottom: 2px;
+}
+
+.section-subheading .btn-lg{
+  margin: 2px;
+}
+
+.login-panel {
+  margin: 5px;
 }
 
 section {

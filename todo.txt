@@ -3,27 +3,20 @@ TODO
 
 Highprio:
 ---------
-- Resolve the logout problem on google chrome
-- Add margins to login / signup forms and to login / signup buttons on home page
 - Create help section content (propose a field to contact the administrator)
 - Add meta markup for google robots
 - Develop the map tracing system
-	- auto zoom
-	- start icon, finish icon
-	- icon for movement depending on transportation type
-	- display a frame at every destination with a short overview of images
-		when clicking on the frame, a modal view is displayed to see destination details (description, transportation type, 		images, images caption, images description)
-	- put some markups on the map page to enable social network tracking
-- Redirect routing errors to 404 page not found
+    - start icon, finish icon, intermediate icon
+    - icon for movement depending on transportation type
+    - put some markups on the map page to enable social network tracking
 - Develop a simple caching system to store the path to the several classes in a file to access it quickly when autoloading
 - When a user create a new destination, check if the previous one (if exists) has a departure date and ask for it if it don't
+- When doing a render, give a a parameter the page title (to be displayed in <head><title></title></head>)
 
 Lowprio:
 --------
 - Create a lang file (and lang system in framework). Do not forget taking into an acocunt the date formatting
 - Implement 2 views for the map (a global one and a step by step one)
 - When a user connect for the first time to the application, a popover appears to ask him for a short functionnality overview
-- When doing a render, give a a parameter the page title (to be displayed in <head><title></title></head>)
 - Create a token when a user is connected. Use this token to validate a form has been sent by a specific user
-- Create a link to destination info when displaying the destination name in trip list (to avoid clicking the button)
 - Deploy the trip (to see its destination) from which the user is comming from (when clicking "back to my trips" for example)

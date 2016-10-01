@@ -10,7 +10,7 @@
         <div class="row">
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
-                    <strong><?php echo $trip['name']; ?></strong> (<?php echo $destinationNumber; ?>)
+                    <strong><a class="link-no-deco" data-toggle="collapse" href=<?php echo '"#' . $cssId . '"'; ?> aria-expanded="false" aria-controls=<?php echo '"' . $cssId . '"'; ?>><?php echo $trip['name']; ?></a></strong> (<?php echo $destinationNumber; ?>)
                     &nbsp;
                     <a data-toggle="collapse" href=<?php echo '"#' . $cssId . '"'; ?> aria-expanded="false" aria-controls=<?php echo '"' . $cssId . '"'; ?>>
                         <span class="badge badge-default"><i class="fa fa-map-marker fa-fw"></i> See / add destination(s)</span>
@@ -47,7 +47,7 @@
                                 $imgs = ' - <a href =' . url('destination/' . $destination['id'] . '#destination-picture') .'><i class="glyphicon glyphicon-picture"></i> ' . $imgs . '</a>';
                         ?>
                         <span class="list-group-item clearfix">
-                            <?php echo '<strong>' . $destination['name'] . '</strong> ' . $fromDate . $toDate . $imgs ?>
+                            <?php echo '<strong><a class="link-no-deco" href=' . url('destination/' . $destination['id']) . '>' . $destination['name'] . '</a></strong> ' . $fromDate . $toDate . $imgs ?>
                             <span class="pull-right">
                                 <a class="btn btn-primary btn-sm" href=<?php echo url('destination/' . $destination['id']); ?> role="button">
                                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Destination info

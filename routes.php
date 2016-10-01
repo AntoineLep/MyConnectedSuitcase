@@ -4,6 +4,7 @@
         Router::init($_GET['url']);
 
         Router::get('/', 'HomeController');
+        Router::get('/404', 'HomeController.notfound');
         Router::get('/gcu', 'HomeController.gcu');        
 
         //Trips
@@ -31,8 +32,8 @@
         Router::get('/image/delete/:id', 'ImageController.delete')->with(':id', '[0-9]+')->middleware('Authentication');
 
         //Trip map
-        Router::get('/tripmap/:username/:tripId', 'TripMapController')->with(':id', '[0-9]+');
-
+        Router::get('/tripmap/:username/:tripId', 'TripMapController.showTripMap')->with(':tripId', '[0-9]+');
+        Router::get('/tripmap/:username/:tripId/destinations', 'TripMapController.getDestinations')->with(':tripId', '[0-9]+');
 
         //User
         Router::get('/user', 'UserController')->middleware('Authentication');
@@ -60,5 +61,11 @@
         Router::get('/help', 'HelpController')->middleware('Authentication');
 
         Router::run();
+        //try {
+        //    Router::run();
+        //} catch (RouterException $re) {
+        //    header('location:' . cleanUrl('/404'));
+        //}
+        
     }
 ?>
