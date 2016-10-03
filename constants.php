@@ -25,7 +25,6 @@
     define('TEMPLATE_FOLDER', VIEW_FOLDER . DS . 'template');
 
     define('USER_IMAGES_FOLDER_NAME', 'user_images');
-    define('TRANSPORTATION_TYPE_IMAGES_FOLDER_NAME', 'transportation');
 
     class Extension {
         /**

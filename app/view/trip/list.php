@@ -1,5 +1,5 @@
 <h2>My trips</h2>
-<div class="row">
+<div class="row" id="my-trips">
     <div class="col-lg-12">
         <?php foreach ($trips as $trip) { 
             $cssId = 'trip-' . $trip['id'];

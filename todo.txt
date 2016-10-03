@@ -6,12 +6,11 @@ Highprio:
 - Create help section content (propose a field to contact the administrator)
 - Add meta markup for google robots
 - Develop the map tracing system
-    - start icon, finish icon, intermediate icon
-    - icon for movement depending on transportation type
     - put some markups on the map page to enable social network tracking
 - Develop a simple caching system to store the path to the several classes in a file to access it quickly when autoloading
 - When a user create a new destination, check if the previous one (if exists) has a departure date and ask for it if it don't
 - When doing a render, give a a parameter the page title (to be displayed in <head><title></title></head>)
+- Add the map type option when editing a trip
 
 Lowprio:
 --------

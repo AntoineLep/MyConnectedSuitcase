@@ -2,10 +2,14 @@
     <div class="col-md-12">
         <h2 id="destination-description"><?php echo $destination['name']; ?></h2>
         <?php if(!empty(trim($destination['description']))) { ?><p class="text-muted"><?php echo $destination['description']; ?> </p><?php } 
-        $fromDate = (isValidDateTime($destination['startDate'])) ? ' - arrived: <em>' . dateFormat($destination['startDate']) . '</em>' : '';
-        $toDate = (isValidDateTime($destination['endDate'])) ? ' - left: <em>' . dateFormat($destination['endDate']) . '</em>' : '';
+            $fromDate = (isValidDateTime($destination['startDate'])) ? ' - arrived: <em>' . dateFormat($destination['startDate']) . '</em>' : '';
+            $toDate = (isValidDateTime($destination['endDate'])) ? ' - left: <em>' . dateFormat($destination['endDate']) . '</em>' : '';
+            $imgTransportationType = '"' . $transportationTypeDetail['folder'];
+            $imgTransportationType .= $transportationTypeDetail['ds'];
+            $imgTransportationType .= $transportationTypeDetail['prefix'] . '_right.';
+            $imgTransportationType .=  $transportationTypeDetail['extension'] . '"';
         ?>
-        {TODO : transportation-type icon} <?php echo $fromDate . $toDate; ?>
+        <img src=<?php echo $imgTransportationType ?>/> <?php echo $fromDate . $toDate; ?>
     </div>
 </div>
 <hr/>

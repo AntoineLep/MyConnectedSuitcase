@@ -45,9 +45,50 @@ $(function(){
                         loc = new google.maps.LatLng(item["lat"], item["lng"]);
                         bounds.extend(loc);
 
+                        var travelIconImg = item.transportationType.folder + item.transportationType.ds + item.transportationType.prefix;
+
+                        if(lastKnownPosition[0] != 0 && lastKnownPosition[1] != 0){
+                            var deltaLat = lastKnownPosition[0] - item["lat"];
+                            var deltaLng = lastKnownPosition[1] - item["lng"];
+                            
+                            if(Math.abs(deltaLat) > Math.abs(deltaLng)) //Lat movement stronger than lng
+                                if(deltaLat > 0)
+                                    travelIconImg += "_bottom." + item.transportationType.extension;
+                                else
+                                    travelIconImg += "_top." + item.transportationType.extension;
+                            else //Lng movement stronger than lat
+                                if(deltaLng > 0)
+                                    travelIconImg += "_left." + item.transportationType.extension;
+                                else
+                                    travelIconImg += "_right." + item.transportationType.extension;
+                        }
+                        else {
+                            travelIconImg += "_top." + item.transportationType.extension;
+                        }
+
+                        if(index != 0){ //not the first destination
+                            var travelIconImgLat = (item["lat"] + lastKnownPosition[0]) / 2;
+                            var travelIconImgLng = (item["lng"] + lastKnownPosition[1]) / 2;
+
+                            var marker = new google.maps.Marker({
+                                position: {lat: travelIconImgLat, lng: travelIconImgLng},
+                                icon: travelIconImg,
+                                map: map
+                            });
+                        }
+
+                        var destIcon = "step.png";
+                        if(index == 0){ // first destination
+                            destIcon = "start.png";
+                        }
+                        if(index != 0 && index == destinationsNumber - 1) //last destination
+                            destIcon = "finish.png"
+
+                        destIcon = item.transportationType.iconx32Folder + item.transportationType.ds + destIcon;
                         //Create the new marker
                         var marker = new google.maps.Marker({
                             position: {lat: item["lat"], lng: item["lng"]},
+                            icon: destIcon,
                             map: map
                         });
 
@@ -59,8 +100,6 @@ $(function(){
                         marker.addListener('click', function() {
                             infowindow.open(map, marker);
                         });
-
-                        markers.push(marker);
 
                         //Create a line (if there is a previous not [0, 0] known position)
                         if (lastKnownPosition[0] != 0 && lastKnownPosition[1] != 0){
@@ -82,7 +121,7 @@ $(function(){
                         //map.panTo({lat: data[0], lng: data[1]}); //Center the map on the new point
 
                         lastKnownPosition[0] = item["lat"]; //Update last known position with current position
-                        lastKnownPosition[1] = item["lng"]
+                        lastKnownPosition[1] = item["lng"];
                     });
                     
                     map.fitBounds(bounds);

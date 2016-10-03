@@ -30,9 +30,11 @@
 
             foreach ($transportationTypes as $transportationType) {
                 $simplifiedTransportationType[$transportationType['id']]= [
-                        'folder' => str_replace('"', '', img_path(TRANSPORTATION_TYPE_IMAGES_FOLDER_NAME . DS . $transportationType['img_folder'])), 
+                        'iconx32Folder' => str_replace('"', '', img_path('icons/x32')),
+                        'folder' => str_replace('"', '', img_path($transportationType['img_folder'])), 
                         'prefix' => $transportationType['img_prefix'],
-                        'extension' => $transportationType['img_extension']
+                        'extension' => $transportationType['img_extension'],
+                        'ds' => DS
                         ];
             }
 
@@ -44,13 +46,14 @@
             foreach ($destinations as $destination) {
 
                 $images = $this->TripMapModel->getImagesWithDestinationId($destination['id']);
-                $infoWindow = $this->loadView('tripmap/infowindow', compact('destination', 'images', 'imageFolder'), true); //return it as html
+                $transportationTypeDetail = $simplifiedTransportationType[$destination['id_transportation_type']];
+                $infoWindow = $this->loadView('tripmap/infowindow', compact('destination', 'images', 'imageFolder', 'transportationTypeDetail'), true); //return it as html
 
                 $retDest = ['name' => $destination['name'],
                             'description' => $destination['description'],
                             'startDate' => $destination['startDate'],
                             'endDate' => $destination['endDate'],
-                            'transportationType' => $simplifiedTransportationType[$destination['id_transportation_type']],
+                            'transportationType' => $transportationTypeDetail,
                             'lat' => floatval($destination['lat']),
                             'lng' => floatval($destination['lng']),
                             'infoWindow' => $infoWindow
