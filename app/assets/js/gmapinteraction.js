@@ -45,26 +45,26 @@ $(function(){
                         loc = new google.maps.LatLng(item["lat"], item["lng"]);
                         bounds.extend(loc);
 
-                        var travelIconImg = item.transportationType.folder + item.transportationType.ds + item.transportationType.prefix;
+                        var travelIconImg = item.transportationType.fa_icon;
 
-                        if(lastKnownPosition[0] != 0 && lastKnownPosition[1] != 0){
-                            var deltaLat = lastKnownPosition[0] - item["lat"];
-                            var deltaLng = lastKnownPosition[1] - item["lng"];
-                            
-                            if(Math.abs(deltaLat) > Math.abs(deltaLng)) //Lat movement stronger than lng
-                                if(deltaLat > 0)
-                                    travelIconImg += "_bottom." + item.transportationType.extension;
-                                else
-                                    travelIconImg += "_top." + item.transportationType.extension;
-                            else //Lng movement stronger than lat
-                                if(deltaLng > 0)
-                                    travelIconImg += "_left." + item.transportationType.extension;
-                                else
-                                    travelIconImg += "_right." + item.transportationType.extension;
-                        }
-                        else {
-                            travelIconImg += "_top." + item.transportationType.extension;
-                        }
+                        //if(lastKnownPosition[0] != 0 && lastKnownPosition[1] != 0){
+                        //    var deltaLat = lastKnownPosition[0] - item["lat"];
+                        //    var deltaLng = lastKnownPosition[1] - item["lng"];
+
+                        //    if(Math.abs(deltaLat) > Math.abs(deltaLng)) //Lat movement stronger than lng
+                        //        if(deltaLat > 0)
+                        //            //bot
+                        //        else
+                        //            //top
+                        //    else //Lng movement stronger than lat
+                        //        if(deltaLng > 0)
+                        //            //left
+                        //        else
+                        //            t//right
+                        //}
+                        //else {
+                        //    //default
+                        //}
 
                         if(index != 0){ //not the first destination
                             var travelIconImgLat = (item["lat"] + lastKnownPosition[0]) / 2;
@@ -72,23 +72,27 @@ $(function(){
 
                             var marker = new google.maps.Marker({
                                 position: {lat: travelIconImgLat, lng: travelIconImgLng},
-                                icon: travelIconImg,
+                                icon: {
+                                        path: fontawesome.markers[travelIconImg.replace('-', '_').toUpperCase()],
+                                        scale: 0.3,
+                                        strokeWeight: 0.4,
+                                        strokeColor: 'white',
+                                        strokeOpacity: 1,
+                                        fillColor: '#222222',
+                                        fillOpacity: 1
+                                    },
                                 map: map
                             });
                         }
 
-                        var destIcon = "step.png";
-                        if(index == 0){ // first destination
-                            destIcon = "start.png";
-                        }
-                        if(index != 0 && index == destinationsNumber - 1) //last destination
-                            destIcon = "finish.png"
+                        var destIcon = item.transportationType.icon_destination;
 
-                        destIcon = item.transportationType.iconx32Folder + item.transportationType.ds + destIcon;
                         //Create the new marker
                         var marker = new google.maps.Marker({
                             position: {lat: item["lat"], lng: item["lng"]},
-                            icon: destIcon,
+                            icon: { url: destIcon,
+                                    scaledSize: new google.maps.Size(32, 32)},
+                            label: (index+1).toString(),
                             map: map
                         });
 

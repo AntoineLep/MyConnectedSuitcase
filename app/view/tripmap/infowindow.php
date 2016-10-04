@@ -4,12 +4,8 @@
         <?php if(!empty(trim($destination['description']))) { ?><p class="text-muted"><?php echo $destination['description']; ?> </p><?php } 
             $fromDate = (isValidDateTime($destination['startDate'])) ? ' - arrived: <em>' . dateFormat($destination['startDate']) . '</em>' : '';
             $toDate = (isValidDateTime($destination['endDate'])) ? ' - left: <em>' . dateFormat($destination['endDate']) . '</em>' : '';
-            $imgTransportationType = '"' . $transportationTypeDetail['folder'];
-            $imgTransportationType .= $transportationTypeDetail['ds'];
-            $imgTransportationType .= $transportationTypeDetail['prefix'] . '_right.';
-            $imgTransportationType .=  $transportationTypeDetail['extension'] . '"';
         ?>
-        <img src=<?php echo $imgTransportationType ?>/> <?php echo $fromDate . $toDate; ?>
+        <i class=<?php echo '"' . 'fa fa-' . $transportationTypeDetail['fa_icon'] . '"'; ?>></i> <?php echo $fromDate . $toDate; ?>
     </div>
 </div>
 <hr/>

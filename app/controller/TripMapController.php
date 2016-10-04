@@ -28,15 +28,9 @@
             $transportationTypes = $this->TripMapModel->getAllTransportationTypes();
             $simplifiedTransportationType = [];
 
-            foreach ($transportationTypes as $transportationType) {
-                $simplifiedTransportationType[$transportationType['id']]= [
-                        'iconx32Folder' => str_replace('"', '', img_path('icons/x32')),
-                        'folder' => str_replace('"', '', img_path($transportationType['img_folder'])), 
-                        'prefix' => $transportationType['img_prefix'],
-                        'extension' => $transportationType['img_extension'],
-                        'ds' => DS
-                        ];
-            }
+            foreach ($transportationTypes as $transportationType)
+                $simplifiedTransportationType[$transportationType['id']]= ['fa_icon' => $transportationType['fa_icon'],
+                                                                            'icon_destination' => str_replace('"', '', img_path('icons/suitcase.svg'))];
 
             $imageFolder = USER_IMAGES_FOLDER_NAME . '/' . $dbUser['image_folder'];
 
