@@ -20,7 +20,7 @@
             $mapVars['trip'] = $dbTrip;
 
             $this->loadView('tripmap/map', compact('mapVars'));
-            $this->render();
+            $this->render(compact('mapVars'));
         }
 
         public function getDestinations($username, $idTrip){
@@ -30,7 +30,9 @@
 
             foreach ($transportationTypes as $transportationType)
                 $simplifiedTransportationType[$transportationType['id']]= ['fa_icon' => $transportationType['fa_icon'],
-                                                                            'icon_destination' => str_replace('"', '', img_path('icons/suitcase.svg'))];
+                                                                           'icon_destination' => str_replace('"', '', img_path('icons/suitcase-1.svg')),
+                                                                           'icon_first' => str_replace('"', '', img_path('icons/first.svg')),
+                                                                           'icon_last' => str_replace('"', '', img_path('icons/last.svg'))];
 
             $imageFolder = USER_IMAGES_FOLDER_NAME . '/' . $dbUser['image_folder'];
 

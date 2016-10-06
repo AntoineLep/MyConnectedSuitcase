@@ -3,14 +3,11 @@ TODO
 
 Highprio:
 ---------
-- Create help section content (propose a field to contact the administrator)
-- Add meta markup for google robots
-- Develop the map tracing system
-    - put some markups on the map page to enable social network tracking
+- Create several full trips and
+    - Illustrate help section content (propose a field to contact the administrator)
+    - Add some screenshots to the home page
 - Develop a simple caching system to store the path to the several classes in a file to access it quickly when autoloading
-- When a user create a new destination, check if the previous one (if exists) has a departure date and ask for it if it don't
-- When doing a render, give a a parameter the page title (to be displayed in <head><title></title></head>)
-- Add the map type option when editing a trip
+- When doing a render, give a parameter the page title (to be displayed in <head><title></title></head>)
 
 Lowprio:
 --------
@@ -19,3 +16,4 @@ Lowprio:
 - When a user connect for the first time to the application, a popover appears to ask him for a short functionnality overview
 - Create a token when a user is connected. Use this token to validate a form has been sent by a specific user
 - Deploy the trip (to see its destination) from which the user is comming from (when clicking "back to my trips" for example)
+- Add rotation to transportation types in the trip map

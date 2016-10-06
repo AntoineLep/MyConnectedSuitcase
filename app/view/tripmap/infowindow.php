@@ -5,7 +5,7 @@
             $fromDate = (isValidDateTime($destination['startDate'])) ? ' - arrived: <em>' . dateFormat($destination['startDate']) . '</em>' : '';
             $toDate = (isValidDateTime($destination['endDate'])) ? ' - left: <em>' . dateFormat($destination['endDate']) . '</em>' : '';
         ?>
-        <i class=<?php echo '"' . 'fa fa-' . $transportationTypeDetail['fa_icon'] . '"'; ?>></i> <?php echo $fromDate . $toDate; ?>
+        <span>Transportation type: <i class=<?php echo '"' . 'fa fa-' . $transportationTypeDetail['fa_icon'] . '"'; ?>></i> <?php echo $fromDate . $toDate; ?></span>
     </div>
 </div>
 <hr/>

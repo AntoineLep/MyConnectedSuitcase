@@ -19,11 +19,17 @@ $(function(){
 
     //first function to be called : init map fields
     function initialize() {
+        var styles = [ { "elementType": "labels.text.fill", "stylers": [ { "color": "#523735" } ] }, { "elementType": "labels.text.stroke", "stylers": [ { "color": "#f5f1e6" } ] }, { "featureType": "administrative", "elementType": "geometry.stroke", "stylers": [ { "color": "#c9b2a6" } ] }, { "featureType": "administrative.land_parcel", "elementType": "geometry.stroke", "stylers": [ { "color": "#dcd2be" } ] }, { "featureType": "administrative.land_parcel", "elementType": "labels.text.fill", "stylers": [ { "color": "#ae9e90" } ] }, { "featureType": "landscape.man_made", "stylers": [ { "color": "#ebe3cd" } ] }, { "featureType": "landscape.natural.terrain", "stylers": [ { "visibility": "on" } ] }, { "featureType": "poi", "elementType": "geometry", "stylers": [ { "color": "#dfd2ae" } ] }, { "featureType": "poi", "elementType": "labels.text.fill", "stylers": [ { "color": "#93817c" } ] }, { "featureType": "poi.park", "elementType": "geometry.fill", "stylers": [ { "color": "#bbca9f" } ] }, { "featureType": "poi.park", "elementType": "labels.text.fill", "stylers": [ { "color": "#447530" } ] }, { "featureType": "road", "elementType": "geometry", "stylers": [ { "color": "#f5f1e6" }, { "visibility": "simplified" }, { "weight": 1 } ] }, { "featureType": "road.arterial", "stylers": [ { "visibility": "simplified" } ] }, { "featureType": "road.arterial", "elementType": "geometry", "stylers": [ { "color": "#fdfcf8" } ] }, { "featureType": "road.highway", "elementType": "geometry", "stylers": [ { "color": "#f8c967" } ] }, { "featureType": "road.highway", "elementType": "geometry.stroke", "stylers": [ { "color": "#e9bc62" } ] }, { "featureType": "road.highway.controlled_access", "elementType": "geometry", "stylers": [ { "color": "#e98d58" } ] }, { "featureType": "road.highway.controlled_access", "elementType": "geometry.stroke", "stylers": [ { "color": "#db8555" } ] }, { "featureType": "road.local", "elementType": "labels.text.fill", "stylers": [ { "color": "#806b63" } ] }, { "featureType": "transit.line", "elementType": "geometry", "stylers": [ { "color": "#dfd2ae" } ] }, { "featureType": "transit.line", "elementType": "labels.text.fill", "stylers": [ { "color": "#8f7d77" } ] }, { "featureType": "transit.line", "elementType": "labels.text.stroke", "stylers": [ { "color": "#ebe3cd" } ] }, { "featureType": "transit.station", "elementType": "geometry", "stylers": [ { "color": "#dfd2ae" } ] }, { "featureType": "water", "elementType": "geometry.fill", "stylers": [ { "color": "#aecfe1" } ] }, { "featureType": "water", "elementType": "labels.text.fill", "stylers": [ { "color": "#92998d" } ] } ];
+        var styledMap = new google.maps.StyledMapType(styles, {name: "Styled Map"});
+
         map = new google.maps.Map($('#map')[0], {
             zoom: defaultZoom,
             center: {lat: positionAtStartup[0], lng: positionAtStartup[1]},
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            mapTypeId: [google.maps.MapTypeId.ROADMAP, 'map_style']
         });
+
+        map.mapTypes.set('map_style', styledMap);
+        map.setMapTypeId('map_style');
     }
 
     //second function to be called: populate the data
@@ -47,25 +53,6 @@ $(function(){
 
                         var travelIconImg = item.transportationType.fa_icon;
 
-                        //if(lastKnownPosition[0] != 0 && lastKnownPosition[1] != 0){
-                        //    var deltaLat = lastKnownPosition[0] - item["lat"];
-                        //    var deltaLng = lastKnownPosition[1] - item["lng"];
-
-                        //    if(Math.abs(deltaLat) > Math.abs(deltaLng)) //Lat movement stronger than lng
-                        //        if(deltaLat > 0)
-                        //            //bot
-                        //        else
-                        //            //top
-                        //    else //Lng movement stronger than lat
-                        //        if(deltaLng > 0)
-                        //            //left
-                        //        else
-                        //            t//right
-                        //}
-                        //else {
-                        //    //default
-                        //}
-
                         if(index != 0){ //not the first destination
                             var travelIconImgLat = (item["lat"] + lastKnownPosition[0]) / 2;
                             var travelIconImgLng = (item["lng"] + lastKnownPosition[1]) / 2;
@@ -86,16 +73,22 @@ $(function(){
                         }
 
                         var destIcon = item.transportationType.icon_destination;
+                        if(index == 0)
+                            destIcon = item.transportationType.icon_first;
+                        if(index == (destinationsNumber - 1) && index != 0)
+                            destIcon = item.transportationType.icon_last;
 
-                        //Create the new marker
-                        var marker = new google.maps.Marker({
+                        var marker = new MarkerWithLabel({
                             position: {lat: item["lat"], lng: item["lng"]},
-                            icon: { url: destIcon,
-                                    scaledSize: new google.maps.Size(32, 32)},
-                            label: (index+1).toString(),
-                            map: map
+                            map: map,
+                            draggable: false,
+                            raiseOnDrag: true,
+                            labelContent: (index+1).toString(),
+                            labelAnchor: new google.maps.Point(14, 22),
+                            labelClass: "gmap-labels", // the CSS class for the label
+                            labelInBackground: false,
+                            icon: { url: destIcon, scaledSize: new google.maps.Size(32, 32)}
                         });
-
 
                         var infowindow = new google.maps.InfoWindow({
                             content: item["infoWindow"]

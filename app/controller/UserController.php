@@ -42,13 +42,13 @@
                                 'password2' => (isset($_POST['password2']) && !empty(trim($_POST['password2']))) ? $_POST['password2'] : ''];
 
                 if($formResult['currentPassword'] == '')
-                    $errors['currentPassword'] = 'Current password is required an cannot be empty';
+                    $errors['currentPassword'] = 'Current password is required an can\'t be empty';
 
                 if($formResult['password1'] == '')
-                    $errors['password1'] = 'New password is required an cannot be empty';
+                    $errors['password1'] = 'New password is required an can\'t be empty';
 
                 if($formResult['password2'] == '')
-                    $errors['password2'] = 'New password confirmation is required an cannot be empty';
+                    $errors['password2'] = 'New password confirmation is required an can\'t be empty';
 
                 if(count($errors) > 0){
                     unset($formResult['currentPassword']);
@@ -79,12 +79,21 @@
                 return $this->index(null, null, $success);
             }
             elseif ($action == 'deleteaccount') {
-                $formResult['delete'] = (isset($_POST['delete']) && !empty(trim($_POST['delete']))) ? $_POST['delete'] : '';
+                $formResult = ['delete' => (isset($_POST['delete']) && !empty(trim($_POST['delete']))) ? $_POST['delete'] : '',
+                                         'passwordDeletion' => (isset($_POST['password-deletion']) && !empty(trim($_POST['password-deletion']))) ? $_POST['password-deletion'] : ''];
 
-                if($formResult['delete'] == ''){
+                if($formResult['delete'] == '')
                     $errors['other'] = 'An error occured when deleting your account';
+
+                $dbUser = $this->UserModel->getUserInfo();
+
+                if($formResult['passwordDeletion'] == '')
+                    $errors['passwordDeletion'] = 'Your password is required an can\'t be empty';
+                elseif (!password_verify($formResult['passwordDeletion'], $dbUser['password']))
+                    $errors['passwordDeletion'] = 'The password is incorrect. <a href=' . url('user/forgotpassword') . '>Forgot your password ?</a>';
+
+                if(count($errors) > 0)
                     return $this->index(null, $errors);
-                }
 
                 $this->UserModel->deleteCurrentUser();
                 return $this->logout();
@@ -110,7 +119,7 @@
                 if($dbUser['activation_key'] == $activationKey){
                     $this->UserModel->activateUserWithId($id);
                     $this->UserModel->regenerateActivationKey($id);
-                    $success = 'Your account is now activated! <a href=' . url('/user/login') . '>Log in</a>';
+                    $success = 'Your account is now active! <a href=' . url('/user/login') . '>Log in</a>';
                     $this->loadView('user/activation', compact('success'));
                     $this->render();
                     return;
@@ -226,10 +235,10 @@
             $formResult['password2'] = (isset($_POST['password2']) && !empty(trim($_POST['password2']))) ? $_POST['password2'] : '';
 
             if($formResult['password1'] == '')
-                $errors['password1'] = 'Password is required an cannot be empty';
+                $errors['password1'] = 'Password is required an can\'t be empty';
 
             if($formResult['password2'] == '')
-                $errors['password2'] = 'Password confirmation is required an cannot be empty';
+                $errors['password2'] = 'Password confirmation is required an can\'t be empty';
 
             if(count($errors) > 0){
                 unset($formResult['password1']);

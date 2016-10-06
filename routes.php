@@ -60,12 +60,10 @@
 
         Router::get('/help', 'HelpController')->middleware('Authentication');
 
-        Router::run();
-        //try {
-        //    Router::run();
-        //} catch (RouterException $re) {
-        //    header('location:' . cleanUrl('/404'));
-        //}
-        
+        try {
+            Router::run();
+        } catch (RouterException $re) {
+            header('location:' . cleanUrl('/404'));
+        }
     }
 ?>
