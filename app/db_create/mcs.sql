@@ -41,15 +41,6 @@ CREATE TABLE `mcs_destination` (
   `id_trip` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `destination`
---
-
-INSERT INTO `mcs_destination` (`id`, `name`, `lat`, `lng`, `description`, `startDate`, `endDate`, `id_transportation_type`, `id_trip`) VALUES
-(1, 'Toulouse', '43.5937874', '1.4260094999999637', 'The pink city', '2016-08-26', '2016-08-31', 1, 2),
-(2, 'Paris', '48.8606166', '2.312775399999964', 'City of lights', '2016-09-01', '2016-09-03', 2, 2),
-(3, 'house', '43.61115840000001', '1.4211725000000115', 'The house', '2016-01-04', NULL, 2, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -64,14 +55,6 @@ CREATE TABLE `mcs_image` (
   `id_destination` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `image`
---
-
-INSERT INTO `mcs_image` (`id`, `caption`, `filename`, `description`, `id_destination`) VALUES
-(1, 'fishing pont neuf', '1b730a3ea99908aca1fc0edad029e434f349c59714e848183601b72a05b4e1b5.jpg', '', 1),
-(2, 'fishing canal du midi', 'd2d95580bcf1be0cbabe1468887b83067a1ed17816d00f22cec0d6f5d34747f7.jpg', '', 1),
-(3, 'Paris best site seing', '7a49c6e68f2de8c1912c79856428f14d80ed8f3ad8ef8fc3d8eed4b0241122b2.png', 'This is a described fake :)', 2);
 
 -- --------------------------------------------------------
 
@@ -114,14 +97,6 @@ CREATE TABLE `mcs_trip` (
   `id_user` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `trip`
---
-
-INSERT INTO `mcs_trip` (`id`, `name`, `description`, `id_user`) VALUES
-(2, 'Euro Tour', 'Europe tour with interrail pass', 1),
-(3, 'Last trip', 'My last trip', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -138,14 +113,6 @@ CREATE TABLE `mcs_user` (
   `image_folder` varchar(200) NOT NULL,
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `mcs_user` (`id`, `username`, `password`, `email`, `registred_date`, `activation_key`, `image_folder`, `status`) VALUES
-(1, 'AntoineLep', '$2y$10$ZykoOqQ7hkgFhzkEaPxRE.22vgjFsbNQI59/OfRu.9KP3bXsGJMaK', 'leprevost.antoine@gmail.com', '2016-09-06', '325622335218f97f9b94c4705ea624bd', 'AntoineLep', 1),
-(6, 'AntoinelLep', '$2y$10$J4vCtR1v.8JNHeNTa0IlfeKYrb3hn/c10sAUM83VKEr28ipuc8cz6', 'leprevost.antoinel@gmail.com', '2016-09-22', 'fa4f647018dd1da3536d1ec95296429e', '25347784939fe92c27d9fe4277b94373', 1);
 
 --
 -- Indexes for dumped tables
@@ -187,38 +154,6 @@ ALTER TABLE `mcs_user`
   ADD UNIQUE KEY `mail` (`email`),
   ADD UNIQUE KEY `username` (`username`);
 
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `destination`
---
-ALTER TABLE `mcs_destination`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `image`
---
-ALTER TABLE `mcs_image`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `transportation_type`
---
-ALTER TABLE `mcs_transportation_type`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT for table `trip`
---
-ALTER TABLE `mcs_trip`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `mcs_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
---
--- Constraints for dumped tables
---
 
 --
 -- Constraints for table `destination`
